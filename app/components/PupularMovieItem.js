@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 
-function MovieItem(props) {
+function PopularMovieItem(props) {
 
     const navigation = useNavigation();
 
@@ -32,4 +32,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default MovieItem;
+export default PopularMovieItem;

@@ -42,7 +42,7 @@ class Main extends Component {
             
         }
         return (
-            <Tab.Navigator tabBarOptions={{ activeTintColor: '#000000', inactiveTintColor: '#999999',}} initialRouteName="Home">
+            <Tab.Navigator tabBarOptions={{ activeTintColor: '#000000', inactiveTintColor: '#999999', labelStyle: {fontFamily: "Poppins-Regular"}}} initialRouteName="Home">
                 <Tab.Screen options={{
                     tabBarLabel: 'Home',
                     tabBarIcon: ({ color, size }) => (
