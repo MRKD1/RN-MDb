@@ -33,12 +33,12 @@ function TrailerItem(props) {
           style={{
             width: posterWidth,
             height: 100,
-            borderRadius: 10,
+            borderRadius: 8,
             marginBottom: 5,
           }}
           source={{ uri: "http://image.tmdb.org/t/p/w342/" + props.poster }}
         ></Image>
-        <Text style={{ flexWrap: "wrap", width: 171 }}>{props.data.name}</Text>
+        <Text style={{ flexWrap: "wrap", width: posterWidth, fontSize: 12, fontFamily:"Poppins-Regular" }}>{props.data.name}</Text>
       </View>
     </TouchableWithoutFeedback>
   );

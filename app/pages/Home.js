@@ -72,8 +72,17 @@ export default class Home extends Component {
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.header}> 
-                    <Text style={styles.title}>Popular Movies</Text>
+                    <Text style={styles.title}>Movies</Text>                
                     <MaterialCommunityIcons name="magnify" size={24}></MaterialCommunityIcons>
+                </View>
+
+                <View 
+                    style={{flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, alignItems: "center", marginBottom: 10,}}>
+                        <Text style={{fontFamily: "Poppins-Regular"}}>Popular</Text>
+                        <View style={{flexDirection: "row", flexWrap: "wrap", alignItems: "center"}}>
+                            <Text style={{fontFamily: "Poppins-SemiBold"}}>View All</Text>
+                            <MaterialCommunityIcons name="chevron-right" size={30} />
+                        </View>
                 </View>
 
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -85,6 +94,15 @@ export default class Home extends Component {
                         }
                     </View>
                 </ScrollView>
+
+                <View 
+                    style={{flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, alignItems: "center", marginBottom: 10,}}>
+                        <Text style={{fontFamily: "Poppins-Regular"}}>Recent</Text>
+                        <View style={{flexDirection: "row", flexWrap: "wrap", alignItems: "center"}}>
+                            <Text style={{fontFamily: "Poppins-SemiBold"}}>View All</Text>
+                            <MaterialCommunityIcons name="chevron-right" size={30} />
+                        </View>
+                </View>
             </SafeAreaView>
         )
     }
@@ -107,7 +125,7 @@ const styles = StyleSheet.create({
 
     title: {
         fontSize: 24,
-        fontWeight: "bold",
+        fontFamily: "Poppins-SemiBold",
         
     },
 });
