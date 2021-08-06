@@ -11,23 +11,120 @@ import Constants from "expo-constants";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { ScrollView } from "react-native-gesture-handler";
 import YoutubePlayer from "react-native-youtube-iframe";
+import * as SQLite from "expo-sqlite";
+import * as FileSystem from "expo-file-system";
 
 import ChipGroup from "../components/ChipGroup";
 import Trailer from "../models/Trailer";
 import TrailerItem from "../components/TrailerItem";
+
+const db = SQLite.openDatabase("movie.db");
 
 class MovieDetails extends Component {
   movieItem = null;
   constructor(props) {
     super(props);
     this.movieItem = props.route.params.item;
+    this.readMovieData(this.movieItem);
   }
 
   state = {
     trailer: [],
     activeMovieTrailerKey: "",
     modalVisible: false,
+    isFavorite: false,
   };
+
+  readMovieData(data){
+    db.transaction((tx) => {
+      tx.executeSql(
+          "SELECT * FROM Favorites WHERE movie_id = ?",
+          [data.id],
+          (txObj, { rows: { _array} }) => {
+              if(_array.length != 0) {
+                this.setState({ isFavorite: true });
+              } else {
+                console.log("No data");
+              }
+          },
+          (txObj, error) => console.error(error)
+      );
+    });
+  }
+
+  downloadFile = async(data, size) => {
+    const movieDir = FileSystem.documentDirectory + "/" + data.id + "/";
+    const dirInfo = await FileSystem.getInfoAsync(movieDir);
+    if(!dirInfo.exists) {
+      await FileSystem.makeDirectoryAsync(movieDir, { intermediates: true });
+    }
+
+    const fileUri = movieDir + (size == 342 ? "poster_path.jpg" : "backdrop_path.jpg");
+    const uri = "http://image.tmdb.org/t/p/w" + size + "/" + (size == 342 ? data.poster_path : data.poster_path);
+    let downloadObject = FileSystem.createDownloadResumable(uri, fileUri);
+    let respinse = await donwloadObject.downloadAsync();
+    return response;
+  };
+
+  deleteItem = async(data) => {
+    const movieDir = FileSystem.documentDirectory + "/" + data.id + "/";
+    await FileSystem.deleteAsync(movieDir);
+    db.transaction((tx) => {
+      tx.executeSql(
+        "DELETE FROM Favorites WHERE movie_id = ?",
+        [data.id],
+        (txObj, resultSet) => {
+          if(resultSet.rowsAffected > 0) {
+            this.setState({ isFavorite: false });
+          }
+        }
+      );
+    });
+  };
+
+  addItem = async(data) => {
+
+    await this.downloadFile(data, 342).then(response => {
+      if (response.status == 200) {
+        this.downloadFile(data, 500).then(response => {
+          if(response.status == 200) {
+            data.genresString = "";
+            data.genresString += data.genres.map((item, index) => item);
+            db.transaction((tx) => {
+            tx.executeSql(
+              "INSERT INTO Favorites (movie_id, title, genres, overview, popularity, release_date, vote_average, vote_count) values (?, ?, ?, ?, ?, ?, ?, ?)",
+              [
+                data.id,
+                data.title,
+                data.genresString,
+                data.overview,
+                data.popularity,
+                data.release_date,
+                data.vote_average,
+                data.vote_count,
+              ],
+            (txObj, resultSet) => {
+              this.setState({ isFavorite: true });
+            
+            },
+            (txObj, error) => console.log("Error", error)
+            );
+          });
+          }
+        })
+      }
+    })
+
+    
+  };
+
+  favoriteProcess(data) {
+    if(this.state.isFavorite) {
+      this.deleteItem(data);
+    } else {
+      this.addItem(data);
+    }
+  }
 
   componentDidMount() {
     return fetch(
@@ -123,6 +220,22 @@ class MovieDetails extends Component {
               size={30}
               color={"#fff"}
             />
+          </TouchableWithoutFeedback>
+
+          <TouchableWithoutFeedback onPress={() => this.downloadFile(this.movieItem, 342)}>
+              <MaterialCommunityIcons
+                  style={{
+                      position: "absolute",
+                      top: Constants.statusBarHeight + 10,
+                      right: 10,
+                      zIndex: 1,
+                      paddingLeft: 20,
+                      paddingBottom: 20,
+                  }}
+                  name={this.state.isFavorite ? "heart" : "heart-outline"}
+                  size={24}
+                  color="#fff"
+              />
           </TouchableWithoutFeedback>
 
           <Image

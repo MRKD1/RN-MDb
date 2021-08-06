@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginTop: Constants.statusBarHeight,
-        paddingVertical: 20,
+        backgroundColor: "#F0F0F0",
     },
 
     header: {

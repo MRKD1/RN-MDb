@@ -13,18 +13,18 @@ function RecentMovieItem(props) {
         <TouchableWithoutFeedback onPress={() => navigation.navigate('MovieDetails', {item: props.item })}> 
             <View style={styles.item}>
                 <Image style={styles.poster} source={{uri:"http://image.tmdb.org/t/p/w342" + props.item.poster_path}}></Image>
-            <View style={{marginLeft: 10, width: _width}}>
-                <Text style={{width: 171, fontFamily: "Poppins-Regular", fontSize: 14}}>{props.item.title}</Text> 
-                <Text style={{fontFamily: "Poppins-Light", fontSize: 12}}>
-                    {props.item.genres.map((genre, index) => genre + (index < props.item.genres.length - 1 ? ", " : "") )}
-                </Text>
-                <View style={{flexDirection: "row", flexWrap: "wrap"}}>
-                    <MaterialCommunityIcons name="star" color={"#FE6D8E"} size={20} />
-                    <Text style={{fontFamily: "Poppins-SemiBold", alignItems: "center"}}>{props.item.vote_average}</Text>
-                    <Text style={{fontSize: 10, fontFamily: "Poppins-Light", alignSelf: "flex-end"}}> / 10</Text>
+                <View style={{marginLeft: 10, width: _width, left: 20,}}>
+                    <Text style={{width: 171, fontFamily: "Poppins-SemiBold", fontSize: 16, marginTop: 10, color: "#303133"}}>{props.item.title}</Text> 
+                    <Text style={{fontFamily: "Poppins-Light", fontSize: 12, color: "#FFBC03"}}>
+                        {props.item.genres.find((genre) => genre[0] )}
+
+                    </Text>
+                    <Text style={{fontFamily: "Poppins-Light", fontSize: 12, color: "#ACACAD"}}>{props.item.release_date}</Text>
+                    <View style={{backgroundColor: "#FFBC03", width: 30, height: 30, alignItems: "center", justifyContent: "center", borderRadius: 10,}}>
+                        <Text style={{fontFamily: "Poppins-SemiBold", alignItems: "center", fontSize: 14, marginTop: 3, color: "#303133"}}>{props.item.vote_average}</Text>
+                    </View>
                 </View>
             </View>
-        </View>
         </TouchableWithoutFeedback>
     );
 }
@@ -32,14 +32,21 @@ function RecentMovieItem(props) {
 const styles = StyleSheet.create({
     item: {
         flexDirection: "row",
-        flexWrap: "wrap-reverse",
+        borderRadius: 10,
+        marginBottom: 10,
+        backgroundColor: "white",
+        height: 160,
+        marginVertical: 50,
+
     },
 
     poster: {
-        width: 171,
-        height: 255.5,
+        width: 114,
+        height: 170.33,
         borderRadius: 10,
         marginBottom: 10,
+        bottom: 35,
+        left: 20,
 
     },
 });

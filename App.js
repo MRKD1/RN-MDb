@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useFonts } from 'expo-font';
+import * as Font from "expo-font";
 
 import Main from './app/pages/Main';
 import MovieDetails from './app/pages/MovieDetails';
@@ -13,16 +13,32 @@ const Stack = createStackNavigator();
 
 export default function App() {
 
-  let [fontsLoaded] = useFonts({
-    'Poppins-Regular': require('./app/assets/fonts/Poppins-Regular.ttf'),
-    'Poppins-Light': require('./app/assets/fonts/Poppins-Light.ttf'),
-    'Poppins-SemiBold': require('./app/assets/fonts/Poppins-SemiBold.ttf'),
-    'Poppins-Bold': require('./app/assets/fonts/Poppins-Bold.ttf'),
-  });
+  const [fontsLoaded, setFontLoaded] = React.useState(false);
+
+  React.useEffect(() => {
+    async function loadResourcesAndDataAsync() {
+      try {
+        await Font.loadAsync({
+          'Poppins-Regular': require('./app/assets/fonts/Poppins-Regular.ttf'),
+          'Poppins-Light': require('./app/assets/fonts/Poppins-Light.ttf'),
+          'Poppins-SemiBold': require('./app/assets/fonts/Poppins-SemiBold.ttf'),
+          'Poppins-Bold': require('./app/assets/fonts/Poppins-Bold.ttf'),
+        });
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setFontLoaded(true);
+      }
+    }
+
+    loadResourcesAndDataAsync();
+  }, []);
 
   if(!fontsLoaded) {
-    <View></View>
+    return null;
   }
+
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{
