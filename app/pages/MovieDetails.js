@@ -220,7 +220,7 @@ class MovieDetails extends Component {
             />
           </TouchableWithoutFeedback>
 
-          <TouchableWithoutFeedback onPress={() => this.downloadFile(this.movieItem, 342)}>
+          <TouchableWithoutFeedback onPress={() => this.favoriteProcess(this.movieItem)}>
               <MaterialCommunityIcons
                   style={{
                       position: "absolute",
