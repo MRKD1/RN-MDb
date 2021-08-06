@@ -47,8 +47,8 @@ export default class Home extends Component {
                     new Movie({
                         id: movie.id,
                         title: movie.title,
-                        poster_path: movie.poster_path,
-                        backdrop_path: movie.backdrop_path,
+                        poster_path: "http://image.tmdb.org/t/p/w342" + movie.poster_path,
+                        backdrop_path: "http://image.tmdb.org/t/p/w500" + movie.backdrop_path,
                         genre_ids: movie.genre_ids,
                         overview: movie.overview,
                         popularity: movie.popularity,
@@ -84,8 +84,8 @@ export default class Home extends Component {
                     new Movie({
                         id: movie.id,
                         title: movie.title,
-                        poster_path: movie.poster_path,
-                        backdrop_path: movie.backdrop_path,
+                        poster_path: "http://image.tmdb.org/t/p/w342" + movie.poster_path,
+                        backdrop_path: "http://image.tmdb.org/t/p/w500" + movie.backdrop_path,
                         genre_ids: movie.genre_ids,
                         overview: movie.overview,
                         popularity: movie.popularity,

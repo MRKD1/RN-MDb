@@ -12,7 +12,7 @@ function RecentMovieItem(props) {
     return (
         <TouchableWithoutFeedback onPress={() => navigation.navigate('MovieDetails', {item: props.item })}> 
             <View style={styles.item}>
-                <Image style={styles.poster} source={{uri:"http://image.tmdb.org/t/p/w342" + props.item.poster_path}}></Image>
+                <Image style={styles.poster} source={{uri: props.item.poster_path}}></Image>
                 <View style={{marginLeft: 10, width: _width, left: 20,}}>
                     <Text style={{width: 171, fontFamily: "Poppins-SemiBold", fontSize: 16, marginTop: 10, color: "#303133"}}>{props.item.title}</Text> 
                     <Text style={{fontFamily: "Poppins-Light", fontSize: 12, color: "#FFBC03"}}>

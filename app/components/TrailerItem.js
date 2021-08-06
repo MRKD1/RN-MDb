@@ -36,7 +36,7 @@ function TrailerItem(props) {
             borderRadius: 8,
             marginBottom: 5,
           }}
-          source={{ uri: "http://image.tmdb.org/t/p/w342/" + props.poster }}
+          source={{ uri: props.poster }}
         ></Image>
         <Text style={{ flexWrap: "wrap", width: posterWidth, fontSize: 12, fontFamily:"Poppins-Regular" }}>{props.data.name}</Text>
       </View>

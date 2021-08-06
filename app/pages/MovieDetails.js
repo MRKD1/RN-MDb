@@ -44,7 +44,7 @@ class MovieDetails extends Component {
               if(_array.length != 0) {
                 this.setState({ isFavorite: true });
               } else {
-                console.log("No data");
+                //console.log("No data");
               }
           },
           (txObj, error) => console.error(error)
@@ -52,29 +52,30 @@ class MovieDetails extends Component {
     });
   }
 
-  downloadFile = async(data, size) => {
+  downloadFile = async (data, process) => {
     const movieDir = FileSystem.documentDirectory + "/" + data.id + "/";
     const dirInfo = await FileSystem.getInfoAsync(movieDir);
-    if(!dirInfo.exists) {
+    if (!dirInfo.exists) {
       await FileSystem.makeDirectoryAsync(movieDir, { intermediates: true });
     }
+    const fileUri =
+      movieDir + (process == 1 ? "poster_path.jpg" : "backdrop_path.jpg");
 
-    const fileUri = movieDir + (size == 342 ? "poster_path.jpg" : "backdrop_path.jpg");
-    const uri = "http://image.tmdb.org/t/p/w" + size + "/" + (size == 342 ? data.poster_path : data.poster_path);
+    const uri = process == 1 ? data.poster_path : data.backdrop_path;
     let downloadObject = FileSystem.createDownloadResumable(uri, fileUri);
-    let respinse = await donwloadObject.downloadAsync();
+    let response = await downloadObject.downloadAsync();
     return response;
   };
 
-  deleteItem = async(data) => {
+  deleteItem = async (data) => {
     const movieDir = FileSystem.documentDirectory + "/" + data.id + "/";
     await FileSystem.deleteAsync(movieDir);
     db.transaction((tx) => {
       tx.executeSql(
-        "DELETE FROM Favorites WHERE movie_id = ?",
+        "DELETE FROM Favorites WHERE movie_id = ? ",
         [data.id],
         (txObj, resultSet) => {
-          if(resultSet.rowsAffected > 0) {
+          if (resultSet.rowsAffected > 0) {
             this.setState({ isFavorite: false });
           }
         }
@@ -82,39 +83,40 @@ class MovieDetails extends Component {
     });
   };
 
-  addItem = async(data) => {
-
-    await this.downloadFile(data, 342).then(response => {
+  addItem = async (data) => {
+    await this.downloadFile(data, 1).then((response) => {
       if (response.status == 200) {
-        this.downloadFile(data, 500).then(response => {
-          if(response.status == 200) {
-            data.genresString = "";
-            data.genresString += data.genres.map((item, index) => item);
+        this.downloadFile(data, 2).then((response) => {
+          if (response.status == 200) {
+            if (data.genresString == undefined) {
+              data.genresString = "";
+              data.genresString += data.genres.map((item, index) => item);
+            }
             db.transaction((tx) => {
-            tx.executeSql(
-              "INSERT INTO Favorites (movie_id, title, genres, overview, popularity, release_date, vote_average, vote_count) values (?, ?, ?, ?, ?, ?, ?, ?)",
-              [
-                data.id,
-                data.title,
-                data.genresString,
-                data.overview,
-                data.popularity,
-                data.release_date,
-                data.vote_average,
-                data.vote_count,
-              ],
-            (txObj, resultSet) => {
-              this.setState({ isFavorite: true });
-            
-            },
-            (txObj, error) => console.log("Error", error)
-            );
-          });
+              tx.executeSql(
+                "INSERT INTO Favorites (movie_id, title, genres, overview, popularity, release_date, vote_average, vote_count) values (?, ?, ?, ?, ?, ?, ?, ?)",
+                [
+                  data.id,
+                  data.title,
+                  data.genresString,
+                  data.overview,
+                  data.popularity,
+                  data.release_date,
+                  data.vote_average,
+                  data.vote_count,
+                ],
+                (txObj, resultSet) => {
+                  this.setState({ isFavorite: true });
+                },
+                (txObj, error) => console.log("Error", error)
+              );
+            });
           }
-        })
+        });
       }
-    })
+    });
   };
+
 
   favoriteProcess(data) {
     if(this.state.isFavorite) {
@@ -147,6 +149,7 @@ class MovieDetails extends Component {
       })
       .catch((error) => console.error(error));
   }
+
 
   render() {
     return (
@@ -241,7 +244,7 @@ class MovieDetails extends Component {
             resizeMode={"cover"}
             source={{
               uri:
-                "http://image.tmdb.org/t/p/w500" + this.movieItem.backdrop_path,
+                this.movieItem.backdrop_path,
             }}
           ></Image>
 
