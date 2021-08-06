@@ -114,8 +114,6 @@ class MovieDetails extends Component {
         })
       }
     })
-
-    
   };
 
   favoriteProcess(data) {
