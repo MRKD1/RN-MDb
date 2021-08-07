@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { SafeAreaView, Text, StyleSheet, View, Switch, Alert } from 'react-native'
+import { Text, StyleSheet, View, Switch, Alert } from 'react-native'
 import Constants from "expo-constants";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
@@ -10,7 +10,7 @@ import { ThemeContext } from "../contexts/ThemeContext";
 
 export default class Settings extends Component {
 
-    showLicence = () => Alert.alert("Licences", "xxx", [ { text: "Cancel", style: "cancel",}, { text: "Ok", style: "ok",}, ], { cancelable: true } );
+    showLicenses = () => Alert.alert("Licenses", "xxx", [ { text: "Cancel", style: "cancel",}, { text: "Ok", style: "ok",}, ], { cancelable: true } );
 
     render() {
         return (
@@ -18,31 +18,31 @@ export default class Settings extends Component {
                 {(context) => {
                     const { isDarkMode, light, dark, updateTheme } = context;
                     return (
-                        <SafeAreaView style={[styles.title, { color: isDarkMode ? light.bg : dark.bg },]}>
+                        <View style={[styles.container, { color: isDarkMode ? light.bg : dark.bg },]}>
                             <Text style={[styles.title, { color: isDarkMode ? light.bg : dark.bg }]}>Settings</Text>
                             <View style={styles.settingsItem}>
                                 <View style={styles.settingsItem2}>
-                                    <MaterialCommunityIcons name={isDarkMode ? "weather-night" : "weather-sunny"} size={26} />
-                                    <Text style={{ marginLeft: 10 }}>Dark Mode</Text>
+                                    <MaterialCommunityIcons name={isDarkMode ? "weather-night" : "weather-sunny"} size={26} color={isDarkMode ? light.bg : dark.bg} />
+                                    <Text style={{ marginLeft: 10, fontFamily: "Poppins-Light", fontSize: 15, color: isDarkMode ? light.bg : dark.bg}}>Dark Mode</Text>
                                 </View>
-                                <Switch value={isDarkMode} onValueChange={updateTheme} />
+                                <Switch value={isDarkMode} onValueChange={updateTheme} trackColor={{ false: "#f4f3f4", true: "#f4f3f4" }} thumbColor={isDarkMode ? "#26ed7c" : "#f4f3f4"} />
                             </View>
-                            <TouchableWithoutFeedback style={styles.listItem} onPress={this.showLicence}>
-                                <View> style={[styles.settingsItem2, {paddingHorizontal: 20}]}
-                                    <MaterialCommunityIcons name="book-open-outline" size={26} />
-                                    <Text style={{ marginLeft: 10 }}>Licences</Text>
+                            <TouchableWithoutFeedback style={styles.listitem} onPress={this.showLicenses}>
+                                <View style={[styles.settingsItem2, { paddingHorizontal: 20 }]}>
+                                    <MaterialCommunityIcons name="book-open-outline" size={26} color={isDarkMode ? light.bg : dark.bg} />
+                                    <Text style={{ marginLeft: 10, fontFamily: "Poppins-Light", fontSize: 15, color: isDarkMode ? light.bg : dark.bg}}>Licenses</Text>
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback style={styles.listItem}>
                                 <View style={[styles.settingsItem2, {paddingHorizontal: 20}]}> 
-                                    <MaterialCommunityIcons name="information-outline" size={26} />
+                                    <MaterialCommunityIcons name="information-outline" size={26} color={isDarkMode ? light.bg : dark.bg} />
                                     <View style={{flexDirection: "row", justifyContent: "space-between", flex: 1, paddingRight: 20,}}>
-                                        <Text style={{ marginLeft: 10}}>Version</Text>
-                                        <Text>v{Constants.manifest.version}</Text>
+                                        <Text style={{ marginLeft: 10, fontFamily: "Poppins-Light", fontSize: 15, color: isDarkMode ? light.bg : dark.bg}}>Version</Text>
+                                        <Text style={{ color: isDarkMode ? light.bg : dark.bg }}>v{Constants.manifest.version}</Text>
                                     </View>
                                 </View>
                             </TouchableWithoutFeedback>
-                        </SafeAreaView>
+                        </View>
                     );
                 }}
             </ThemeContext.Consumer>
@@ -65,14 +65,10 @@ const styles = StyleSheet.create({
       paddingHorizontal: 20,
     },
     settingsItem2: {
-      flexWrap: "wrap",
-      alignItems: "center",
-      flexDirection: "row",
-    },
-    example: {
-      width: 150,
-      height: 150,
-    },
+        flexWrap: "wrap",
+        alignItems: "center",
+        flexDirection: "row",
+      },
     header: {
       width: "100%",
       flexDirection: "row",
@@ -82,7 +78,7 @@ const styles = StyleSheet.create({
     title: {
       paddingLeft: 20,
       fontSize: 22,
-      fontFamily: "poppins-sb",
+      fontFamily: "Poppins-SemiBold",
       marginBottom: 20,
     },
 });
