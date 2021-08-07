@@ -8,6 +8,7 @@ import * as Font from "expo-font";
 
 import Main from './app/pages/Main';
 import MovieDetails from './app/pages/MovieDetails';
+import ThemeContextProvider from './app/contexts/ThemeContext';
 
 const Stack = createStackNavigator();
 
@@ -40,23 +41,25 @@ export default function App() {
 
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{
-        headerShown: false,
-      }}>
-        <Stack.Screen
-          name='Main'
-          component={Main}
-          options={{ title: 'Main' }}
-        />
+    <ThemeContextProvider>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{
+          headerShown: false,
+        }}>
+          <Stack.Screen
+            name='Main'
+            component={Main}
+            options={{ title: 'Main' }}
+          />
 
-        <Stack.Screen
-          name='MovieDetails'
-          component={MovieDetails}
-          options={{ title: 'MovieDetails' }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen
+            name='MovieDetails'
+            component={MovieDetails}
+            options={{ title: 'MovieDetails' }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ThemeContextProvider>
   );
 }
 
