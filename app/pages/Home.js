@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import { SafeAreaView, View, StyleSheet, ScrollView, Text } from 'react-native'
+import { View, StyleSheet, ScrollView, Text } from 'react-native'
 import Constants from 'expo-constants';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { StatusBar } from "expo-status-bar";
 
 import PupularMovieItem from '../components/PupularMovieItem';
 import RecentMovieItem from '../components/RecentMovieItem';
 import Movie from '../models/Movie';
+import { ThemeContext } from "../contexts/ThemeContext";
 
 export default class Home extends Component {
 
@@ -115,54 +117,64 @@ export default class Home extends Component {
 
     render() {
         return (
-            <SafeAreaView style={styles.container}>
-                <View style={styles.header}> 
-                    <Text style={styles.title}>Movies</Text>                
-                    <MaterialCommunityIcons name="magnify" size={24}></MaterialCommunityIcons>
-                </View>
-
-                <ScrollView>
-                    <View 
-                        style={{flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, alignItems: "center", marginVertical: 10,}}>
-                            <Text style={{fontFamily: "Poppins-SemiBold", fontSize: 16}}>Popular</Text>
-                            <View style={{flexDirection: "row", flexWrap: "wrap", alignItems: "center"}}>
-                                <Text style={{fontFamily: "Poppins-Bold", fontSize: 16}}>View All</Text>
-                                <MaterialCommunityIcons name="chevron-right" size={30} />
+            <ThemeContext.Consumer>
+                {(context) => {
+                    const { isDarkMode, light, dark } = context;
+                    
+                    return (
+                        <View style={[styles.container, { backgroundColor: !isDarkMode ? light.bg : dark.bg }]}>
+                            <StatusBar style={!isDarkMode ? "light" : "dark"}></StatusBar>
+                            <View style={styles.header}> 
+                                <Text style={[styles.title, { color: isDarkMode ? light.bg : dark.bg }]}>Movies</Text>                
+                                <MaterialCommunityIcons name="magnify" size={24} color={isDarkMode ? light.bg : dark.bg}></MaterialCommunityIcons>
                             </View>
-                    </View>
-
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                        <View style={{flexDirection: "row", flex: 1, paddingLeft: 10}}>
-                            {
-                                this.state.popularMovies.map((item, index) => {
-                                    return index < 5 ? ( <PupularMovieItem key={item.id} item={item} /> ) : ( <View key={item.id} /> );
-                                    })
-                            }
+            
+                            <ScrollView>
+                                <View 
+                                    style={{flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, alignItems: "center", marginVertical: 10,}}>
+                                        <Text style={{fontFamily: "Poppins-SemiBold", fontSize: 16, color: isDarkMode ? light.bg : dark.bg}}>Popular</Text>
+                                        <View style={{flexDirection: "row", flexWrap: "wrap", alignItems: "center"}}>
+                                            <Text style={{fontFamily: "Poppins-Bold", fontSize: 16, color: isDarkMode ? light.bg : dark.bg}}>View All</Text>
+                                            <MaterialCommunityIcons name="chevron-right" size={30} color={isDarkMode ? light.bg : dark.bg}/>
+                                        </View>
+                                </View>
+            
+                                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                                    <View style={{flexDirection: "row", flex: 1, paddingLeft: 10}}>
+                                        {
+                                            this.state.popularMovies.map((item, index) => {
+                                                return index < 5 ? ( <PupularMovieItem key={item.id} item={item} /> ) : ( <View key={item.id} /> );
+                                                })
+                                        }
+                                    </View>
+                                </ScrollView>
+            
+                                <View 
+                                    style={{flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, alignItems: "center", marginBottom: 10,}}>
+                                        <Text style={{fontFamily: "Poppins-SemiBold", fontSize: 16, color: isDarkMode ? light.bg : dark.bg}}>Recent</Text>
+                                        <View style={{flexDirection: "row", flexWrap: "wrap", alignItems: "center"}}>
+                                            <Text style={{fontFamily: "Poppins-Bold", fontSize: 16, color: isDarkMode ? light.bg : dark.bg}}>View All</Text>
+                                            <MaterialCommunityIcons name="chevron-right" size={30} color={isDarkMode ? light.bg : dark.bg}/>
+                                        </View>
+                                </View>
+            
+                                
+                                <View style={{paddingHorizontal: 20}}>
+                                    {
+                                        this.state.recentMovies.map((item, index) => {
+                                            return index < 5 ? ( <RecentMovieItem key={item.id} item={item} /> ) : ( <View key={item.id} /> );
+                                        })
+                                    }
+                                </View>
+                                
+            
+                            </ScrollView>
                         </View>
-                    </ScrollView>
-
-                    <View 
-                        style={{flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, alignItems: "center", marginBottom: 10,}}>
-                            <Text style={{fontFamily: "Poppins-SemiBold", fontSize: 16}}>Recent</Text>
-                            <View style={{flexDirection: "row", flexWrap: "wrap", alignItems: "center"}}>
-                                <Text style={{fontFamily: "Poppins-Bold", fontSize: 16}}>View All</Text>
-                                <MaterialCommunityIcons name="chevron-right" size={30} />
-                            </View>
-                    </View>
-
-                    
-                    <View style={{paddingHorizontal: 20}}>
-                        {
-                            this.state.recentMovies.map((item, index) => {
-                                return index < 5 ? ( <RecentMovieItem key={item.id} item={item} /> ) : ( <View key={item.id} /> );
-                            })
-                        }
-                    </View>
-                    
-
-                </ScrollView>
-            </SafeAreaView>
+                    )
+                }}
+            </ThemeContext.Consumer>
         )
+
     }
 }
 

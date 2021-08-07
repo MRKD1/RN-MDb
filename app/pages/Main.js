@@ -8,6 +8,7 @@ import * as SQLite from "expo-sqlite";
 import Home from "./../pages/Home";
 import Favorite from "./../pages/Favorite";
 import Settings from "./../pages/Settings";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 const Tab = createBottomTabNavigator();
 const db = SQLite.openDatabase("movie.db");
@@ -45,7 +46,7 @@ class Main extends Component {
 
 
     render() {
-        const HomeComponent = (props) => <Home genres={this.state.genres} />
+        const HomeComponent = (props) => <Home {...props} genres={this.state.genres} />
         if(this.state.isLoading) {
             <SafeAreaView style={{flex: 1, justifyContent: "center", alignItems: "center" }}>
                 <ActivityIndicator />
@@ -53,36 +54,43 @@ class Main extends Component {
             
         }
         return (
-            <Tab.Navigator tabBarOptions={{ activeTintColor: '#000000', inactiveTintColor: '#999999', labelStyle: {fontFamily: "Poppins-Regular"}}} initialRouteName="Home">
-                <Tab.Screen options={{
-                    tabBarLabel: 'Home',
-                    tabBarIcon: ({ color, size }) => (
-                    <MaterialCommunityIcons name="home" color={color} size={26} />
-                    ),
-                }} 
-                name="Home" 
-                component={HomeComponent} 
-                />
-                <Tab.Screen options={{
-                    tabBarLabel: 'Favorite',
-                    tabBarIcon: ({ color, size }) => (
-                    <MaterialCommunityIcons name="heart" color={color} size={26} />
-                    ),
-                }}  
-                name="Favorite" 
-                component={Favorite} 
-                />
-                <Tab.Screen options={{
-                    tabBarLabel: 'Settings',
-                    tabBarIcon: ({ color, size }) => (
-                    <MaterialCommunityIcons name="cog" color={color} size={26} />
-                    ),
-                }}  
-                name="Settings" 
-                component={Settings} 
-                />
-            </Tab.Navigator>
-        );
+            <ThemeContext.Consumer>
+                {(context) => {
+                    const { isDarkMode, light, dark } = context;
+                    return (
+                        <Tab.Navigator tabBarOptions={{ activeTintColor: isDarkMode ? "#FFF" : "#333", inactiveTintColor: '#999999', labelStyle: {fontFamily: "Poppins-Regular"}, style:{ backgroundColor: !isDarkMode ? light.bg : dark.bg, borderTopWidth: 0, shadowColor: "#000", shadowOffset: {width: 0, height: 4,}, shadowOpacity: 0.25, shadowRadius: 8,},}} initialRouteName="Home">
+                            <Tab.Screen options={{
+                                tabBarLabel: 'Home',
+                                tabBarIcon: ({ color, size }) => (
+                                <MaterialCommunityIcons name="home" color={color} size={26} />
+                                ),
+                            }} 
+                            name="Home" 
+                            component={HomeComponent} 
+                            />
+                            <Tab.Screen options={{
+                                tabBarLabel: 'Favorite',
+                                tabBarIcon: ({ color, size }) => (
+                                <MaterialCommunityIcons name="heart" color={color} size={26} />
+                                ),
+                            }}  
+                            name="Favorite" 
+                            component={Favorite} 
+                            />
+                            <Tab.Screen options={{
+                                tabBarLabel: 'Settings',
+                                tabBarIcon: ({ color, size }) => (
+                                <MaterialCommunityIcons name="cog" color={color} size={26} />
+                                ),
+                            }}  
+                            name="Settings" 
+                            component={Settings} 
+                            />
+                        </Tab.Navigator>
+                    );
+                }}
+            </ThemeContext.Consumer>
+        )
     }
 }
 
