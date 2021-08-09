@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, ScrollView, Text } from 'react-native'
+import { View, StyleSheet, ScrollView, Text, TouchableWithoutFeedback } from 'react-native'
 import Constants from 'expo-constants';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { StatusBar } from "expo-status-bar";
@@ -132,10 +132,13 @@ export default class Home extends Component {
                                 <View 
                                     style={{flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, alignItems: "center", marginVertical: 10,}}>
                                         <Text style={{fontFamily: "Poppins-SemiBold", fontSize: 16, color: isDarkMode ? light.bg : dark.bg}}>Popular</Text>
-                                        <View style={{flexDirection: "row", flexWrap: "wrap", alignItems: "center"}}>
-                                            <Text style={{fontFamily: "Poppins-Bold", fontSize: 16, color: isDarkMode ? light.bg : dark.bg}}>View All</Text>
-                                            <MaterialCommunityIcons name="chevron-right" size={30} color={isDarkMode ? light.bg : dark.bg}/>
-                                        </View>
+                                        <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ViewAll", { genres: this.genres, isPopular: true })}>
+                                            <View style={{flexDirection: "row", flexWrap: "wrap", alignItems: "center"}}>
+                                                <Text style={{fontFamily: "Poppins-Bold", fontSize: 16, color: isDarkMode ? light.bg : dark.bg}}>View All</Text>
+                                                <MaterialCommunityIcons name="chevron-right" size={30} color={isDarkMode ? light.bg : dark.bg}/>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                        
                                 </View>
             
                                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -151,10 +154,14 @@ export default class Home extends Component {
                                 <View 
                                     style={{flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, alignItems: "center", marginBottom: 10,}}>
                                         <Text style={{fontFamily: "Poppins-SemiBold", fontSize: 16, color: isDarkMode ? light.bg : dark.bg}}>Recent</Text>
-                                        <View style={{flexDirection: "row", flexWrap: "wrap", alignItems: "center"}}>
-                                            <Text style={{fontFamily: "Poppins-Bold", fontSize: 16, color: isDarkMode ? light.bg : dark.bg}}>View All</Text>
-                                            <MaterialCommunityIcons name="chevron-right" size={30} color={isDarkMode ? light.bg : dark.bg}/>
-                                        </View>
+
+                                        <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ViewAll", { genres: this.genres, isPopular: false })} >
+                                            <View style={{flexDirection: "row", flexWrap: "wrap", alignItems: "center"}}>
+                                                <Text style={{fontFamily: "Poppins-Bold", fontSize: 16, color: isDarkMode ? light.bg : dark.bg}}>View All</Text>
+                                                <MaterialCommunityIcons name="chevron-right" size={30} color={isDarkMode ? light.bg : dark.bg}/>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                        
                                 </View>
             
                                 

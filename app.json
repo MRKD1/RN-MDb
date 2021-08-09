@@ -24,7 +24,9 @@
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+        
+      },
+      "userInterfaceStyle": "light"
     },
     "web": {
       "favicon": "./app/assets/favicon.png"

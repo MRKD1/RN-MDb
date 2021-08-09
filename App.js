@@ -1,7 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useRef, useEffect} from 'react';
+import { StyleSheet } from 'react-native';
 import 'react-native-gesture-handler';
+import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as Font from "expo-font";
@@ -9,14 +9,15 @@ import * as Font from "expo-font";
 import Main from './app/pages/Main';
 import MovieDetails from './app/pages/MovieDetails';
 import ThemeContextProvider from './app/contexts/ThemeContext';
+import ViewAll from './app/pages/ViewAll';
 
 const Stack = createStackNavigator();
 
 export default function App() {
 
-  const [fontsLoaded, setFontLoaded] = React.useState(false);
+  const [fontsLoaded, setFontLoaded] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
         await Font.loadAsync({
@@ -42,6 +43,7 @@ export default function App() {
 
   return (
     <ThemeContextProvider>
+      <StatusBar style="auto"></StatusBar>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{
           headerShown: false,
@@ -57,6 +59,14 @@ export default function App() {
             component={MovieDetails}
             options={{ title: 'MovieDetails' }}
           />
+
+          <Stack.Screen
+            name='ViewAll'
+            component={ViewAll}
+            options={{ title: 'ViewAll' }}
+          />
+
+
         </Stack.Navigator>
       </NavigationContainer>
     </ThemeContextProvider>

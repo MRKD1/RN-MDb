@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableWithoutFeedback, Dimensions } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 function RecentMovieItem(props) {
 

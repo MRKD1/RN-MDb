@@ -10,7 +10,6 @@ import { ThemeContext } from "../contexts/ThemeContext";
 
 export default class Settings extends Component {
 
-    showLicenses = () => Alert.alert("Licenses", "xxx", [ { text: "Cancel", style: "cancel",}, { text: "Ok", style: "ok",}, ], { cancelable: true } );
 
     render() {
         return (
@@ -29,23 +28,20 @@ export default class Settings extends Component {
                       value={isDarkMode}
                       onValueChange={updateTheme}
                       trackColor={{ false: "#f4f3f4", true: "#f4f3f4" }}
-                      thumbColor={isDarkMode ? "#26ed7c" : "#f4f3f4"}
+                      thumbColor={isDarkMode ? "red" : "#f4f3f4"}
                     />
                   </View>
                   
-                  <TouchableWithoutFeedback style={styles.listitem} onPress={this.showLicenses} >
-                    <View style={[styles.settingsItem2, { paddingHorizontal: 20 }]}>
-                      <MaterialCommunityIcons name="book-open-outline" size={24} color={isDarkMode ? light.bg : dark.bg}/>
-                      <Text style={{ marginLeft: 10, fontFamily: "Poppins-Light", fontSize: 15, color: isDarkMode ? light.bg : dark.bg, }} >Privacy Policy</Text>
-                    </View>
-                  </TouchableWithoutFeedback>
-                  <View style={[ styles.settingsItem2, { paddingHorizontal: 20, marginBottom: 10 }, ]}>
+                  
+                  <View style={[ styles.settingsItem2, { paddingHorizontal: 20, marginTop: 20 }, ]}>
                     <MaterialCommunityIcons name="account-outline" size={26} color={isDarkMode ? light.bg : dark.bg}/>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", flex: 1, }}>
                       <Text style={{ marginLeft: 10, fontFamily: "Poppins-Light", fontSize: 15, color: isDarkMode ? light.bg : dark.bg, }}>Author</Text>
                       <Text style={{ fontFamily: "Poppins-Light", fontSize: 15, color: isDarkMode ? light.bg : dark.bg, }}>MRKD</Text>
                     </View>
                   </View>
+
+            
                   <View style={[styles.settingsItem2, { paddingHorizontal: 20 }]}>
                     <MaterialCommunityIcons name="information-outline" size={26} color={isDarkMode ? light.bg : dark.bg}/>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", flex: 1, }}>

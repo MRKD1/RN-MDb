@@ -243,8 +243,7 @@ class MovieDetails extends Component {
             style={styles.poster}
             resizeMode={"cover"}
             source={{
-              uri:
-                this.movieItem.backdrop_path,
+              uri: this.movieItem.backdrop_path,
             }}
           ></Image>
 
