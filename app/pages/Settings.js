@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     },
     title: {
       paddingLeft: 20,
-      fontSize: 22,
+      fontSize: 24,
       fontFamily: "Poppins-SemiBold",
       marginBottom: 20,
     },

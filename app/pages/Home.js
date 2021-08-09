@@ -142,7 +142,7 @@ export default class Home extends Component {
                                     <View style={{flexDirection: "row", flex: 1, paddingLeft: 10}}>
                                         {
                                             this.state.popularMovies.map((item, index) => {
-                                                return index < 5 ? ( <PupularMovieItem key={item.id} item={item} /> ) : ( <View key={item.id} /> );
+                                                return index < 5 ? ( <PupularMovieItem key={item.id} item={item} context={context} /> ) : ( <View key={item.id} /> );
                                                 })
                                         }
                                     </View>
@@ -161,7 +161,7 @@ export default class Home extends Component {
                                 <View style={{paddingHorizontal: 20}}>
                                     {
                                         this.state.recentMovies.map((item, index) => {
-                                            return index < 5 ? ( <RecentMovieItem key={item.id} item={item} /> ) : ( <View key={item.id} /> );
+                                            return index < 5 ? ( <RecentMovieItem key={item.id} item={item} context={context} /> ) : ( <View key={item.id} /> );
                                         })
                                     }
                                 </View>

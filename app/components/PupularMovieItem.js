@@ -10,7 +10,7 @@ function PopularMovieItem(props) {
         <TouchableWithoutFeedback onPress={() => navigation.navigate('MovieDetails', {item: props.item })}> 
             <View style={styles.item}>
                 <Image style={styles.poster} source={{uri: props.item.poster_path}}></Image>
-            <Text style={{width: 171, fontFamily: "Poppins-Regular", fontSize: 14}}>{props.item.title}</Text> 
+            <Text style={{width: 171, fontFamily: "Poppins-Regular", fontSize: 14, color: props.context.isDarkMode ? props.context.light.bg : props.context.dark.bg }}>{props.item.title}</Text> 
         </View>
         </TouchableWithoutFeedback>
     );
