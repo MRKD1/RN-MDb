@@ -58,7 +58,7 @@ class Main extends Component {
                 {(context) => {
                     const { isDarkMode, light, dark } = context;
                     return (
-                        <Tab.Navigator tabBarOptions={{ activeTintColor: isDarkMode ? "#FFF" : "#333", inactiveTintColor: '#999999', labelStyle: {fontFamily: "Poppins-Regular"}, style:{ backgroundColor: !isDarkMode ? light.bg : dark.bg, borderTopWidth: 0, shadowColor: "#000", shadowOffset: {width: 0, height: 4,}, shadowOpacity: 0.25, shadowRadius: 8,},}} initialRouteName="Home">
+                        <Tab.Navigator tabBarOptions={{ activeTintColor: isDarkMode ? "#FFF" : "#333", inactiveTintColor: '#999999', labelStyle: {fontFamily: "Poppins-Regular"}, style:{ backgroundColor: isDarkMode ? dark.bg : light.bg, borderTopWidth: 0, shadowColor: "#000", shadowOffset: {width: 0, height: 4,}, shadowOpacity: 0.25, shadowRadius: 8,},}} initialRouteName="Home">
                             <Tab.Screen options={{
                                 tabBarLabel: 'Home',
                                 tabBarIcon: ({ color, size }) => (

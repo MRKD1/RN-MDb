@@ -120,10 +120,9 @@ export default class Home extends Component {
             <ThemeContext.Consumer>
                 {(context) => {
                     const { isDarkMode, light, dark } = context;
-                    
                     return (
-                        <View style={[styles.container, { backgroundColor: !isDarkMode ? light.bg : dark.bg }]}>
-                            <StatusBar style={!isDarkMode ? "light" : "dark"}></StatusBar>
+                        <View style={[styles.container, { backgroundColor: isDarkMode ? dark.bg : light.bg }]}>
+                            <StatusBar style={ isDarkMode ? "light" : "dark"}></StatusBar>
                             <View style={styles.header}> 
                                 <Text style={[styles.title, { color: isDarkMode ? light.bg : dark.bg }]}>Movies</Text>                
                                 <MaterialCommunityIcons name="magnify" size={24} color={isDarkMode ? light.bg : dark.bg}></MaterialCommunityIcons>
@@ -181,8 +180,7 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: Constants.statusBarHeight,
-        backgroundColor: "#F0F0F0",
+        paddingTop: Constants.statusBarHeight + 10,
     },
 
     header: {
@@ -190,6 +188,7 @@ const styles = StyleSheet.create({
         width: "100%",
         justifyContent: "space-between",
         paddingHorizontal: 10,
+        
     },
 
     title: {

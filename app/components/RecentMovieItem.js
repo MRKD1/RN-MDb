@@ -19,7 +19,7 @@ function RecentMovieItem(props) {
                         {props.item.genres.find((genre) => genre[0] )}
 
                     </Text>
-                    <Text style={{fontFamily: "Poppins-Light", fontSize: 12, color: "#ACACAD"}}>{props.item.release_date}</Text>
+                    <Text style={{fontFamily: "Poppins-Light", fontSize: 12, color: "white"}}>{props.item.release_date}</Text>
                     <View style={{backgroundColor: "#FFBC03", width: 30, height: 30, alignItems: "center", justifyContent: "center", borderRadius: 10,}}>
                         <Text style={{fontFamily: "Poppins-SemiBold", alignItems: "center", fontSize: 14, marginTop: 3, color: "#303133"}}>{props.item.vote_average}</Text>
                     </View>
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         borderRadius: 10,
         marginBottom: 10,
-        backgroundColor: "white",
+        backgroundColor: "#ACACAD",
         height: 160,
         marginVertical: 50,
 
