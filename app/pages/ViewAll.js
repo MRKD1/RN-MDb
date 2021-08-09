@@ -5,6 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Constants from 'expo-constants';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
+import PopularMovieItem from '../components/PupularMovieItem';
 import RecentMovieItem from '../components/RecentMovieItem';
 import { ThemeContext } from "../contexts/ThemeContext";
 import Movie from "../models/Movie";
