@@ -8,7 +8,7 @@ import { Dimensions } from 'react-native';
 
 import PupularMovieItem from '../components/PupularMovieItem';
 import RecentMovieItem from '../components/RecentMovieItem';
-import Movie from '../models/Movie';
+import Movie from "../models/Movie";
 import { ThemeContext } from "../contexts/ThemeContext";
 
 export default class Home extends Component {
@@ -44,7 +44,7 @@ export default class Home extends Component {
                 var allgenres = this.genres;
                 responseJson.results.forEach((movie) => {
                     movie.genres = [];
-                    movie.genres_ids.forEach((genreid) => {
+                    movie.genre_ids.forEach((genreid) => {
                         var genreData = allgenres.filter((x) => x.id == genreid);
                         if (genreData.length != 0) {
                             movie.genres.push(genreData[0].name);
@@ -56,11 +56,11 @@ export default class Home extends Component {
                             id: movie.id,
                             title: movie.title,
                             poster_path:
-                            movie.poster_path == null
-                            ? "https://lightning.od-cdn.com/25.2.6-build-2536-master/public/img/no-cover_en_US.jpg"
-                            : "http://image.tmdb.org/t/p/w342/" + movie.poster_path,
+                                movie.poster_path == null
+                                ? "https://lightning.od-cdn.com/25.2.6-build-2536-master/public/img/no-cover_en_US.jpg"
+                                : "http://image.tmdb.org/t/p/w342/" + movie.poster_path,
                             backdrop_path:
-                            "http://image.tmdb.org/t/p/w500/" + movie.backdrop_path,
+                                "http://image.tmdb.org/t/p/w500/" + movie.backdrop_path,
                             genres_ids: movie.genres_ids,
                             overview: movie.overview,
                             popularity: movie.popularity,

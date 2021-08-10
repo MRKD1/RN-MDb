@@ -5,17 +5,31 @@ import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as Font from "expo-font";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Main from './app/pages/Main';
 import MovieDetails from './app/pages/MovieDetails';
 import ThemeContextProvider from './app/contexts/ThemeContext';
 import ViewAll from './app/pages/ViewAll';
+import AppIntro from './app/pages/AppIntro';
 
 const Stack = createStackNavigator();
 
 export default function App() {
 
   const [fontsLoaded, setFontLoaded] = useState(false);
+  const [initialPage, setInitialPage] = useState("Main");
+
+  const getPage = async () => {
+    try {
+      const value = await AsyncStorage.getItem("isFirstRun");
+      if (value == "true" || value == null) {
+        setInitialPage("AppIntro");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   useEffect(() => {
     async function loadResourcesAndDataAsync() {
@@ -33,7 +47,7 @@ export default function App() {
       }
     }
 
-    loadResourcesAndDataAsync();
+    getPage().then(() => loadResourcesAndDataAsync());
   }, []);
 
   if(!fontsLoaded) {
@@ -45,9 +59,8 @@ export default function App() {
     <ThemeContextProvider>
       <StatusBar style="auto"></StatusBar>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{
-          headerShown: false,
-        }}>
+        <Stack.Navigator initialRouteName={initialPage} screenOptions={{ headerShown: false, }}>
+        
           <Stack.Screen
             name='Main'
             component={Main}
@@ -64,6 +77,12 @@ export default function App() {
             name='ViewAll'
             component={ViewAll}
             options={{ title: 'ViewAll' }}
+          />
+
+          <Stack.Screen
+            name='AppIntro'
+            component={ViewAll}
+            options={{ title: 'AppIntro' }}
           />
 
 

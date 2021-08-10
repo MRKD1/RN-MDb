@@ -17,6 +17,11 @@ class Main extends Component {
     constructor() {
         super();
 
+        props.navigation.addListener("beforeRemove", (e) => {
+            e.preventDefault();
+            return;
+        });
+
         this.state={
             isLoading: false,
             genres: []
@@ -65,7 +70,7 @@ class Main extends Component {
                                 <MaterialCommunityIcons name="home" color={color} size={26} />
                                 ),
                             }} 
-                            name="Home" 
+                            name="Home"                     
                             component={HomeComponent} 
                             />
                             <Tab.Screen options={{
