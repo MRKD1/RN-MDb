@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Text, Image } from "react-native";
 import PagerView from "react-native-pager-view";
 import Constants from 'expo-constants';
@@ -65,7 +65,7 @@ function AppIntro(props) {
                 </View>
             </PagerView>
 
-            <View> style={{position: "absolute", bottom: 50, width: "100%", alignItems: "center"}}
+            <View style={{position: "absolute", bottom: 50, width: "100%", alignItems: "center"}}> 
                 <DotIndicator activeIndex={selectedIndex} dotSize={8} itemLength={5}></DotIndicator>
             </View>
         </View>
@@ -118,4 +118,6 @@ const styles = StyleSheet.create({
         marginTop: 30,
     },
 
-})
+});
+
+export default AppIntro;

@@ -22,7 +22,7 @@ export default function Favorite({ navigation, route}) {
                 "SELECT * FROM Favorites",
                 null,
                 (txObj, { rows: { _array} }) => {
-                    //console.log(_array);
+                    
                     setData(_array);
                     setLoading(false);  
                 },

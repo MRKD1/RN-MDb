@@ -14,8 +14,8 @@ const Tab = createBottomTabNavigator();
 const db = SQLite.openDatabase("movie.db");
 
 class Main extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         props.navigation.addListener("beforeRemove", (e) => {
             e.preventDefault();

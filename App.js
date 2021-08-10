@@ -81,7 +81,7 @@ export default function App() {
 
           <Stack.Screen
             name='AppIntro'
-            component={ViewAll}
+            component={AppIntro}
             options={{ title: 'AppIntro' }}
           />
 
