@@ -29,7 +29,7 @@ class CastViewAll extends Component {
                 var casts = [];
                 responseJson.cast.map((cast) => {
                     casts.push(
-                        new CastViewAll({
+                        new Cast({
                             id: cast.id,
                             name: cast.name,
                             profile_path: cast.profile_path,

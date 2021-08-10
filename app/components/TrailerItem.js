@@ -7,6 +7,7 @@ function TrailerItem(props) {
   const leftPosition = (posterWidth - 24) / 2;
   const marginValue = props.itemIndex % 2 == 0 ? 10 : 0;
   
+  const { isDarkMode, light, dark } = props.context;
 
   const thumbnail = "https://img.youtube.com/vi/" + props.data.key + "/hqdefault.jpg";
 
@@ -34,7 +35,7 @@ function TrailerItem(props) {
           }}
           source={{ uri: thumbnail }}
         ></Image>
-        <Text style={{ flexWrap: "wrap", width: posterWidth, fontSize: 12, fontFamily:"Poppins-Regular", }}>{props.data.name}</Text>
+        <Text style={{ flexWrap: "wrap", width: posterWidth, fontSize: 12, fontFamily:"Poppins-Regular", color: isDarkMode ? light.bg : dark.bg,}}>{props.data.name}</Text>
       </View>
     </TouchableWithoutFeedback>
   );

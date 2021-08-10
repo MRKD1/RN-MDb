@@ -141,11 +141,7 @@ class MovieDetails extends Component {
   }
 
   componentDidMount() {
-    return fetch(
-      "https://api.themoviedb.org/3/movie/" +
-        this.movieItem.id +
-        "/videos?api_key=6269ca319ffc8277bdd7de26a3894f6e"
-    )
+    return fetch( this.baseUrl + this.movieItem.id + "/videos?api_key=" + this.apiKey)
       .then((response) => response.json())
       .then((responseJson) => {
         var items = [];
@@ -160,6 +156,24 @@ class MovieDetails extends Component {
         });
 
         this.setState({ trailer: items });
+
+        fetch( this.baseUrl + this.movieItem.id + "/credits?api_key=" + this.apiKey)
+          .then((response) => response.json())
+          .then((responseJson) => {
+            var casts = [];
+            responseJson.cast.map((cast) => {
+              casts.push(
+                new Cast({
+                  id: cast.id,
+                  name: cast.name,
+                  profile_path: cast.profile_path,
+                  character: cast.character,
+                })
+              );
+            });
+            this.setState({ castResults: casts });
+          })
+          .catch((error) => console.error(error));
       })
       .catch((error) => console.error(error));
   }
@@ -297,17 +311,17 @@ class MovieDetails extends Component {
                       </TouchableWithoutFeedback>
                     </View>
                     <ScrollView>
-                      {this.state.castResults.map((cast, index) => {
-                        return index < 4 ? (
-                          <CastItem
-                            cast={cast}
-                            context={context}
-                            key={cast.id}
-                          />
-                        ) : (
-                          <View key={cast.id} />
-                        );
-                      })}
+                    {this.state.castResults.map((cast, index) => {
+                          return index < 4 ? (
+                            <CastItem
+                              cast={cast}
+                              context={context}
+                              key={cast.id}
+                            />
+                          ) : (
+                            <View key={cast.id} />
+                          );
+                        })}
                     </ScrollView>
                   </View>
                 </ScrollView>
