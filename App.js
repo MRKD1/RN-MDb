@@ -12,6 +12,7 @@ import MovieDetails from './app/pages/MovieDetails';
 import ThemeContextProvider from './app/contexts/ThemeContext';
 import ViewAll from './app/pages/ViewAll';
 import AppIntro from './app/pages/AppIntro';
+import CastViewAll from './app/pages/CastViewAll';
 
 const Stack = createStackNavigator();
 
@@ -83,6 +84,12 @@ export default function App() {
             name='AppIntro'
             component={AppIntro}
             options={{ title: 'AppIntro' }}
+          />
+
+          <Stack.Screen
+            name='CastViewAll'
+            component={CastViewAll}
+            options={{ title: 'CastViewAll' }}
           />
 
 

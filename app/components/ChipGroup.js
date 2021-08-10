@@ -1,14 +1,17 @@
 import React from 'react';
 import { View, StyleSheet, Text} from "react-native";
 
+import { ThemeContext } from "../contexts/ThemeContext";
+
 function ChipGroup(props) {
+    const { isDarkMode, light, dark } = props.context;
     return (
         <View style={styles.itemGroup}>
             {
                 props.datas.map((item, index) => {
                     return(
-                        <View style={styles.chipItem} key={index}>
-                            <Text style={{color: "#222", fontFamily: "Poppins-Light",fontSize: 11,}}>{item}</Text>
+                        <View style={[styles.chipItem, { borderColor: isDarkMode ? light.bg : "#0E0E0E"}]} key={index}>
+                            <Text style={{color: isDarkMode ? light.bg : "#222", fontFamily: "Poppins-Regular",fontSize: 11,}}>{item}</Text>
                         </View>
                     )
                 })
