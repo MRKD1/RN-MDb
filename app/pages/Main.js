@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
+import { StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
 import Constants from 'expo-constants';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
