@@ -14,43 +14,43 @@ function AppIntro(props) {
         <View style={styles.container}>
             <PagerView style={styles.pagerView} onPageSelected={(e) => setSelectedIndex(e.nativeEvent.position)} initialPage={0}>
                 <View key="1" style={styles.page}>
-                    <Text style={styles.title}>SSSSSSSSSSSSSSS</Text>
+                    <Text style={styles.title}>Offline Database</Text>
                     <View style={styles.circle}>
                         <Image style={{ width: 48, height: 48, tintColor: "white" }} source={require("./../assets/data.png")}></Image>
                     </View>
-                    <Text style={styles.subtitle}>SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS</Text>
+                    <Text style={styles.subtitle}>Browse without internet by crating your own favorites list.</Text>
                 </View>
 
                 <View key="2" style={styles.page}>
-                    <Text style={styles.title}>DDDDDDDDDDD</Text>
+                    <Text style={styles.title}>Millions of Movies</Text>
                     <View style={styles.circle}>
                         <Image style={{ width: 48, height: 48, tintColor: "white" }} source={require("./../assets/movies.png")}></Image>
                     </View>
-                    <Text style={styles.subtitle}>DDDDDDDDDDDDDDDDDDD</Text>
+                    <Text style={styles.subtitle}>Access millions of movies instantly.</Text>
                 </View>
 
                 <View key="3" style={styles.page}>
-                    <Text style={styles.title}>WWWWWWWWWW</Text>
+                    <Text style={styles.title}>Freedom to Translate</Text>
                     <View style={styles.circle}>
                         <Image style={{ width: 48, height: 48, tintColor: "white" }} source={require("./../assets/translate.png")}></Image>
                     </View>
-                    <Text style={styles.subtitle}>WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW</Text>
+                    <Text style={styles.subtitle}>Translate the movie details you don't understand into your language with one touch.</Text>
                 </View>
 
                 <View key="4" style={styles.page}>
-                    <Text style={styles.title}>QQQQQQQQQQQ</Text>
+                    <Text style={styles.title}>Dark Mode</Text>
                     <View style={styles.circle}>
                         <Image style={{ width: 48, height: 48, tintColor: "white" }} source={require("./../assets/moonmode.png")}></Image>
                     </View>
-                    <Text style={styles.subtitle}>QQQQQQQQQQQQQQQQQQQQQQQ</Text>
+                    <Text style={styles.subtitle}>Browse comfortably at night without straining your eyes.</Text>
                 </View>
 
                 <View key="5" style={styles.page}>
-                    <Text style={styles.title}>RRRRRRRRRR</Text>
+                    <Text style={styles.title}>Advance Notifications</Text>
                     <View style={styles.circle}>
                         <Image style={{ width: 48, height: 48, tintColor: "white" }} source={require("./../assets/notification.png")}></Image>
                     </View>
-                    <Text style={styles.subtitle}>RRRRRRRRRRRRRRRRRRRRRR</Text>
+                    <Text style={styles.subtitle}>Inform you of the movies on your favorite list before the release date.</Text>
 
                     <TouchableWithoutFeedback 
                         onPress={async () => { 
@@ -59,7 +59,7 @@ function AppIntro(props) {
                         }}
                     >
                         <View style={styles.button}>
-                            <Text style={{ color: "white", fontFamily: "Poppins-Light" }}>KLIK</Text>
+                            <Text style={{ color: "white", fontFamily: "Poppins-Light" }}>LET'S START</Text>
                         </View>
                     </TouchableWithoutFeedback>
                 </View>
