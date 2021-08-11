@@ -1,32 +1,26 @@
 {
   "expo": {
-    "name": "MDb",
-    "slug": "MDb",
+    "name": "RNMDb",
+    "slug": "RNMDb",
     "version": "1.0.0",
     "orientation": "portrait",
-    "userInterfaceStyle": "light",
     "icon": "./app/assets/icon.png",
-    "splash": {
-      "image": "./app/assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mrkd1.rnmdb",
+      "buildNumber": "1.0.0"
     },
     "android": {
+      "package": "com.mrkd1.rnmdb",
+      "versionCode": 1,
+      "useNextNotificationsApi": true,
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-        
-      },
-      "userInterfaceStyle": "light"
+        "backgroundColor": "#222124" 
+      }
     },
     "web": {
       "favicon": "./app/assets/favicon.png"
