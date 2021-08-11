@@ -16,7 +16,8 @@ import YoutubePlayer from "react-native-youtube-iframe";
 import * as SQLite from "expo-sqlite";
 import * as FileSystem from "expo-file-system";
 import { LinearGradient  } from "expo-linear-gradient";
-
+import * as Notifications from "expo-notifications";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import ChipGroup from "../components/ChipGroup";
 import Trailer from "../models/Trailer";
@@ -32,13 +33,28 @@ class MovieDetails extends Component {
   baseUrl = "https://api.themoviedb.org/3/movie/";
   apiKey = "6269ca319ffc8277bdd7de26a3894f6e";
   scrollHeight = 0;
+  triggerValue = "15";
+
+  getTriggerValue = async () => {
+    try {
+      const value = await AsyncStorage.getItem("triggerValue");
+      if(value == null) {
+        await AsyncStorage.setItem("triggerValue", "15");
+      } else {
+        this.triggerValue = value;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   constructor(props) {
     super(props);
     this.movieItem = props.route.params.item;
     this.readMovieData(this.movieItem);
-    var topSpace = Constants.statusBarHeight +10 + 48;
+    var topSpace = Constants.statusBarHeight + 10;
     this.scrollHeight = Dimensions.get("screen").height - topSpace - 70;
+    this.getTriggerValue();
   }
 
   state = {
@@ -47,6 +63,56 @@ class MovieDetails extends Component {
     modalVisible: false,
     isFavorite: false,
     castResults: [],
+    isShow: true,
+  };
+
+  checkDate = () => {
+    var d = Moment(this.movieItem.release_date);
+    var current = Date.now();
+
+    var now = moment(current);
+
+    var duration = moment.duration(d.diff(now));
+    var days = duration.asDays();
+
+    if (days <= 0) {
+      this.setState({ isShow: false });
+    }
+  };
+
+  setFavoriteAlarm = async () => {
+    var addForDay = this.triggerValue != "15" && this.triggerValue != "30" ? Number.parseInt(this.triggerValue) : 0;
+    var addForMin = this.triggerValue != "1" && this.triggerValue != "2" ? Number.parseInt(this.triggerValue) : 0;
+    var year = this.movieItem.release_date.split("-")[0];
+    var month = this.movieItem.release_date.split("-")[1];
+    var days = Number.parseInt(this.movieItem.release_date.split("-")[2]) + addForDay;
+    var hours = new Date().getHours();
+    var min = new Date().getMinutes(); + addForMin;
+    var sec = new Date().getSeconds();
+    var releaseDate = year + "-" + month + "-" + days;
+    var movieDay = Date.parse("2021-04-11");
+    const movieTrigger = new Date(movieDay);
+    movieTrigger.setMinutes(min);
+    movieTrigger.setHours(hours);
+    movieTrigger.setSeconds(sec);
+    movieTrigger.setMilliseconds(0);
+    console.log(movieTrigger);
+    var dayString = this.triggerValue == 15 || this.triggerValue == 30 ? "Today" : "Tomorrow";
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Movie",
+        body: dayString + ", " + this.movieItem.title + " " + "Movie is coming out",
+        data: this.movieItem,
+      },
+      trigger: movieTrigger,
+      identifier: this.movieItem.id.toString(),
+    });
+  };
+
+  cancelFavoriteAlarm = async () => {
+    await Notifications.cancelScheduledNotificationAsync(
+      this.movieItem.id.toString()
+    );
   };
 
   readMovieData(data){
@@ -91,6 +157,7 @@ class MovieDetails extends Component {
         (txObj, resultSet) => {
           if (resultSet.rowsAffected > 0) {
             this.setState({ isFavorite: false });
+            this.cancelFavoriteAlarm();
           }
         }
       );
@@ -121,6 +188,7 @@ class MovieDetails extends Component {
                 ],
                 (txObj, resultSet) => {
                   this.setState({ isFavorite: true });
+                  this.setFavoriteAlarm();
                 },
                 (txObj, error) => console.log("Error", error)
               );
@@ -242,6 +310,7 @@ class MovieDetails extends Component {
                 />
               </TouchableWithoutFeedback>
               
+              {this.state.isShow ? (
                 <TouchableWithoutFeedback onPress={() => this.favoriteProcess(this.movieItem)}>
                   <MaterialCommunityIcons
                     style={{
@@ -257,6 +326,9 @@ class MovieDetails extends Component {
                     color={isDarkMode ? light.bg : dark.bg}
                   />
                 </TouchableWithoutFeedback>
+              ) : ( <View/>)}
+
+                
               
               <View style={{ marginTop: 70, height: this.scrollHeight, }}>
                 <ScrollView>

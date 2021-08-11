@@ -210,7 +210,10 @@ export default class Home extends Component {
                             <StatusBar style={ isDarkMode ? "light" : "dark"}></StatusBar>
                             <View style={styles.header}>
                                 {!this.state.isAnimating && this.state.iconName == "magnify" ? (
-                                    <Text style={[styles.title, { color: isDarkMode ? light.bg : dark.bg }]}>Movies</Text>  
+                                    <View style={{flexWrap: "wrap", flexDirection: "row", justifyContent: "center"}}>
+                                        <MaterialCommunityIcons style={{ marginRight: 5, paddingTop: 2 }} name="movie" color={isDarkMode ? light.bg : dark.bg} size={30} />
+                                        <Text style={[styles.title, { color: isDarkMode ? light.bg : dark.bg }]}>Movies</Text>  
+                                    </View>
                                 ) : ( <View/>)}
                                 <View style={{ flexWrap: "wrap" }}>
                                     {this.renderRectangle(context)}    

@@ -4,12 +4,36 @@ import Constants from "expo-constants";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Picker } from "@react-native-picker/picker";
 
 import { ThemeContext } from "../contexts/ThemeContext";
 
 
 export default class Settings extends Component {
 
+  state = {
+    selectedTriggerValue: "15",
+  };
+
+  getTriggerValue = async () => {
+    try {
+      const value = await AsyncStorage.getItem("triggerValue");
+      if(value == null) {
+        await AsyncStorage.setItem("triggerValue", "15");
+      } else {
+        this.setState({
+          selectedTriggerValue: value,
+        });
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  constructor() {
+    super();
+    this.getTriggerValue();
+  }
 
     render() {
         return (
@@ -31,13 +55,30 @@ export default class Settings extends Component {
                       thumbColor={isDarkMode ? "red" : "#f4f3f4"}
                     />
                   </View>
-                  
-                  
+
+                  <View style={styles.settingsItem}>
+                    <View style={[ styles.settingsItem2, {marginVertical: 10,} ]}>
+                        <MaterialCommunityIcons name="bell-outline" size={26} color={isDarkMode ? light.bg : dark.bg}/>
+                        <Text style={{ marginLeft: 10, fontFamily: "Poppins-Light", fontSize: 15, color: isDarkMode ? light.bg : dark.bg, }}>Notifications Intervals</Text>
+                    </View>
+                    <Picker style={{width: 140, height: 40}} selectedValue={this.state.selectedTriggerValue} onValueChange={ async (itemValue) => 
+                        { this.setState({ selectedTriggerValue: itemValue }); 
+                          await AsyncStorage.setItem("triggerValue", itemValue.toString())
+                        }}
+                    >
+
+                      <Picker.Item label={15 + " " + "min"} value="15" />
+                      <Picker.Item label={30 + " " + "min"} value="30" />
+                      <Picker.Item label={1 + " " + "day"} value="1" />
+                      <Picker.Item label={2 + " " + "day"} value="2" />
+                    </Picker>
+                  </View>
+
                   <View style={[ styles.settingsItem2, { paddingHorizontal: 20, marginTop: 20 }, ]}>
                     <MaterialCommunityIcons name="account-outline" size={26} color={isDarkMode ? light.bg : dark.bg}/>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", flex: 1, }}>
                       <Text style={{ marginLeft: 10, fontFamily: "Poppins-Light", fontSize: 15, color: isDarkMode ? light.bg : dark.bg, }}>Author</Text>
-                      <Text style={{ fontFamily: "Poppins-Light", fontSize: 15, color: isDarkMode ? light.bg : dark.bg, }}>MRKD</Text>
+                      <Text style={{ fontFamily: "Poppins-Light", fontSize: 15, color: isDarkMode ? light.bg : dark.bg, }}>MRKD_1</Text>
                     </View>
                   </View>
 
