@@ -18,6 +18,9 @@ import * as FileSystem from "expo-file-system";
 import { LinearGradient  } from "expo-linear-gradient";
 import * as Notifications from "expo-notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import SnackBar from 'react-native-snackbar-component';
+import Moment from "moment";
+import moment from "moment";
 
 import ChipGroup from "../components/ChipGroup";
 import Trailer from "../models/Trailer";
@@ -64,6 +67,8 @@ class MovieDetails extends Component {
     isFavorite: false,
     castResults: [],
     isShow: true,
+    isVisibleMessage: false,
+    messageText: "",
   };
 
   checkDate = () => {
@@ -115,19 +120,19 @@ class MovieDetails extends Component {
     );
   };
 
-  readMovieData(data){
+  readMovieData(data) {
     db.transaction((tx) => {
       tx.executeSql(
-          "SELECT * FROM Favorites WHERE movie_id = ?",
-          [data.id],
-          (txObj, { rows: { _array} }) => {
-              if(_array.length != 0) {
-                this.setState({ isFavorite: true });
-              } else {
-                //console.log("No data");
-              }
-          },
-          (txObj, error) => console.error(error)
+        "SELECT * FROM Favorites WHERE movie_id = ?",
+        [data.id],
+        (txObj, { rows: { _array } }) => {
+          if (_array.length != 0) {
+            this.setState({ isFavorite: true });
+          } else {
+            
+          }
+        },
+        (txObj, error) => console.error(error)
       );
     });
   }
@@ -157,6 +162,7 @@ class MovieDetails extends Component {
         (txObj, resultSet) => {
           if (resultSet.rowsAffected > 0) {
             this.setState({ isFavorite: false });
+            this.setMessage(2);
             this.cancelFavoriteAlarm();
           }
         }
@@ -166,8 +172,10 @@ class MovieDetails extends Component {
 
   addItem = async (data) => {
     await this.downloadFile(data, 1).then((response) => {
+      
       if (response.status == 200) {
         this.downloadFile(data, 2).then((response) => {
+          
           if (response.status == 200) {
             if (data.genresString == undefined) {
               data.genresString = "";
@@ -188,6 +196,7 @@ class MovieDetails extends Component {
                 ],
                 (txObj, resultSet) => {
                   this.setState({ isFavorite: true });
+                  this.setMessage(1);
                   this.setFavoriteAlarm();
                 },
                 (txObj, error) => console.log("Error", error)
@@ -199,6 +208,17 @@ class MovieDetails extends Component {
     });
   };
 
+  setMessage = async (process) => {
+    if (process == 1) {
+      this.setState({ messageText: "Movie has been added to favorites" });
+    } else {
+      this.setState({ messageText: "Movie has been removed from favorites" });
+    }
+
+    this.setState({ isVisibleMessage: true });
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    this.setState({ isVisibleMessage: false });
+  };
 
   favoriteProcess(data) {
     if(this.state.isFavorite) {
@@ -209,6 +229,7 @@ class MovieDetails extends Component {
   }
 
   componentDidMount() {
+    this.checkDate();
     return fetch( this.baseUrl + this.movieItem.id + "/videos?api_key=" + this.apiKey)
       .then((response) => response.json())
       .then((responseJson) => {
@@ -256,7 +277,12 @@ class MovieDetails extends Component {
         return (
           <View style={styles.container}>
             <StatusBar style={isDarkMode ? "light" : "dark"} />
-            
+            <SnackBar 
+              visible={this.state.isVisibleMessage}
+              textMessage={this.state.messageText}
+              backgroundColor={isDarkMode ? dark.bg : light.bg}
+              messageColor={isDarkMode ? light.bg : dark.bg}
+            />
             <Modal
               style={{ position: "absolute", top: 0 }}
               animationType="slide"
@@ -310,7 +336,7 @@ class MovieDetails extends Component {
                 />
               </TouchableWithoutFeedback>
               
-              {this.state.isShow ? (
+              
                 <TouchableWithoutFeedback onPress={() => this.favoriteProcess(this.movieItem)}>
                   <MaterialCommunityIcons
                     style={{
@@ -326,10 +352,8 @@ class MovieDetails extends Component {
                     color={isDarkMode ? light.bg : dark.bg}
                   />
                 </TouchableWithoutFeedback>
-              ) : ( <View/>)}
-
-                
               
+
               <View style={{ marginTop: 70, height: this.scrollHeight, }}>
                 <ScrollView>
                   <View style={styles.posterSpace} />

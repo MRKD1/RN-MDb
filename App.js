@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as Font from "expo-font";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Notifications from "expo-notifications";
+import * as SplashScreen from "expo-splash-screen";
 
 import Main from './app/pages/Main';
 import MovieDetails from './app/pages/MovieDetails';
@@ -14,6 +15,7 @@ import ThemeContextProvider from './app/contexts/ThemeContext';
 import ViewAll from './app/pages/ViewAll';
 import AppIntro from './app/pages/AppIntro';
 import CastViewAll from './app/pages/CastViewAll';
+import CustomSplashScreen from "./app/components/CustomSplashScreen";
 
 const Stack = createStackNavigator();
 
@@ -33,6 +35,8 @@ export default function App() {
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
+  const [isReady, setReady] = useState(false);
+  const [isDarkMode, setDarkMode] = useState(false);
 
   const getPage = async () => {
     try {
@@ -74,7 +78,24 @@ export default function App() {
     return token;
   }
 
+  const onLoadLayout = async () => {
+    SplashScreen.hideAsync();
+    try {
+      const value = await AsyncStorage.getItem("isDarkMode");
+      if(value != null) {
+        if(value == "true") {
+          setDarkMode(true);
+        }
+      }
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setReady(true);
+    } catch(e) {
+
+    }
+  };
+
   useEffect(() => {
+    SplashScreen.preventAutoHideAsync();
     async function loadResourcesAndDataAsync() {
       try {
         await Font.loadAsync({
@@ -115,6 +136,13 @@ export default function App() {
 
   if(!fontsLoaded) {
     return null;
+  }
+
+  
+  if(!isReady) {
+    return (
+        <CustomSplashScreen onLoadLayout={onLoadLayout} isDarkMode={isDarkMode} ></CustomSplashScreen>
+    );
   }
 
 
