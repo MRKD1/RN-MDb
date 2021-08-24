@@ -29,7 +29,6 @@ export default class Home extends Component {
     //isLoading: false,
     recentMovies: [],
     popularMovies: [],
-    recentMovies: [],
     queryResult: [],
     query: "",
     iconName: "magnify",
@@ -275,14 +274,14 @@ export default class Home extends Component {
                     fontFamily: "Poppins-Light",
                   }}
                   data={this.state.queryResult}
-                  placeholder="Enter movie name"
+                  placeholder={"Enter movie name"}
                   autoFocus={true}
                   placeholderTextColor={isDarkMode ? light.bg : dark.bg}
                   keyExtractor={(item, i) => item.id.toString()}
                   containerStyle={{
                     paddingHorizontal: 20,
                     position: "absolute",
-                    top: 40,
+                    top: Platform.OS == "ios" ? 65 : 40,
                     paddingLeft: 60,
                     height: 40,
                     width: "100%",
@@ -291,13 +290,16 @@ export default class Home extends Component {
                     borderWidth: 0,
                     height: 40,
                   }}
-                  listStyle={{ maxHeight: 300, zIndex: 999 }}
+                  listStyle={{
+                    maxHeight: 300,
+                    zIndex: 999,
+                  }}
                   onChangeText={(text) => {
                     this.searchData(text);
                   }}
-                  renderItem={({ item, i }) => {
+                  renderItem={({ item, i }) => (
                     <TouchableWithoutFeedback
-                      maonPress={() => {
+                      onPress={() => {
                         this.props.navigation.navigate("MovieDetail", {
                           item: item,
                         });
@@ -311,13 +313,13 @@ export default class Home extends Component {
                         }}
                       >
                         <Image
-                          style={{ width: 30, height: 57 }}
+                          style={{ width: 38, height: 57 }}
                           source={{ uri: item.poster_path }}
                         />
                         <View
                           style={{
                             flexWrap: "wrap",
-                            flexDirection: "row",
+                            flexDirection: "column",
                             marginLeft: 5,
                             justifyContent: "center",
                           }}
@@ -326,13 +328,14 @@ export default class Home extends Component {
                           <Text>{item.release_date}</Text>
                         </View>
                       </View>
-                    </TouchableWithoutFeedback>;
-                  }}
-                ></Autocomplete>
+                    </TouchableWithoutFeedback>
+                  )}
+                />
               ) : (
                 <View />
               )}
 
+              {/* In Theatres */}
               <ScrollView scrollEnabled={this.state.query == "" ? true : false}>
                 <View
                   style={{
@@ -346,11 +349,11 @@ export default class Home extends Component {
                   <Text
                     style={{
                       fontFamily: "Poppins-SemiBold",
-                      fontSize: 16,
+                      fontSize: 18,
                       color: isDarkMode ? light.bg : dark.bg,
                     }}
                   >
-                    Popular
+                    In Theatres
                   </Text>
                   <TouchableWithoutFeedback
                     onPress={() =>
@@ -370,7 +373,7 @@ export default class Home extends Component {
                       <Text
                         style={{
                           fontFamily: "Poppins-Bold",
-                          fontSize: 16,
+                          fontSize: 18,
                           color: isDarkMode ? light.bg : dark.bg,
                         }}
                       >
@@ -393,7 +396,7 @@ export default class Home extends Component {
                   <View
                     style={{ flexDirection: "row", flex: 1, paddingLeft: 10 }}
                   >
-                    {this.state.popularMovies.map((item, index) => {
+                    {this.state.recentMovies.map((item, index) => {
                       return index < 5 ? (
                         <PupularMovieItem
                           key={item.id}
@@ -407,23 +410,24 @@ export default class Home extends Component {
                   </View>
                 </ScrollView>
 
+                {/* POPULAR */}
                 <View
                   style={{
                     flexDirection: "row",
                     justifyContent: "space-between",
                     paddingHorizontal: 20,
                     alignItems: "center",
-                    marginBottom: 10,
+                    marginTop: 30,
                   }}
                 >
                   <Text
                     style={{
                       fontFamily: "Poppins-SemiBold",
-                      fontSize: 16,
+                      fontSize: 18,
                       color: isDarkMode ? light.bg : dark.bg,
                     }}
                   >
-                    Recent
+                    Popular
                   </Text>
 
                   <TouchableWithoutFeedback
@@ -444,7 +448,7 @@ export default class Home extends Component {
                       <Text
                         style={{
                           fontFamily: "Poppins-Bold",
-                          fontSize: 16,
+                          fontSize: 18,
                           color: isDarkMode ? light.bg : dark.bg,
                         }}
                       >
@@ -460,7 +464,7 @@ export default class Home extends Component {
                 </View>
 
                 <View style={{ paddingHorizontal: 20 }}>
-                  {this.state.recentMovies.map((item, index) => {
+                  {this.state.popularMovies.map((item, index) => {
                     return index < 5 ? (
                       <RecentMovieItem
                         key={item.id}
