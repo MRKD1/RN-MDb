@@ -34,8 +34,8 @@ export default function App() {
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
-  const [fontsLoaded, setFontLoaded] = React.useState(false);
-  const [initialPage, setInitialPage] = React.useState("MainRoot");
+  const [fontsLoaded, setFontLoaded] = useState(false);
+  const [initialPage, setInitialPage] = useState("MainRoot");
 
   const getPage = async () => {
     try {
