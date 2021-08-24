@@ -28,14 +28,14 @@ Notifications.setNotificationHandler({
 });
 
 export default function App() {
-  const [fontsLoaded, setFontLoaded] = useState(false);
-  const [initialPage, setInitialPage] = useState("Main");
+  const [isReady, setReady] = useState(false);
+  const [isDarkMode, setDarkMode] = useState(false);
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
-  const [isReady, setReady] = useState(false);
-  const [isDarkMode, setDarkMode] = useState(false);
+  const [fontsLoaded, setFontLoaded] = React.useState(false);
+  const [initialPage, setInitialPage] = React.useState("MainRoot");
 
   const getPage = async () => {
     try {
@@ -48,34 +48,6 @@ export default function App() {
     }
   };
 
-  async function registerForPushNotificationsAsync() {
-    let token;
-    const { status: existingStatus } =
-      await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== "granted") {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== "granted") {
-      alert("Failed to get push token for push notification!");
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    //console.log(token);
-
-    /* if (Platform.OS === "android") {
-      Notifications.setNotificationChannelAsync("default", {
-        name: "default",
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: "#FF231F7C",
-      });
-    }*/
-
-    return token;
-  }
-
   const onLoadLayout = async () => {
     SplashScreen.hideAsync();
     try {
@@ -85,6 +57,7 @@ export default function App() {
           setDarkMode(true);
         }
       }
+
       await new Promise((resolve) => setTimeout(resolve, 2000));
       setReady(true);
     } catch (e) {}
@@ -129,6 +102,34 @@ export default function App() {
       Notifications.removeNotificationSubscription(responseListener);
     };
   }, []);
+
+  async function registerForPushNotificationsAsync() {
+    let token;
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== "granted") {
+      alert("Failed to get push token for push notification!");
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    //console.log(token);
+
+    /* if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
+    }*/
+
+    return token;
+  }
 
   if (!fontsLoaded) {
     return null;

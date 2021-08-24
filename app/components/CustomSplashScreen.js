@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { View, Image } from "react-native";
 function CustomSplashScreen(props) {
   return (
@@ -14,6 +14,7 @@ function CustomSplashScreen(props) {
       <Image
         source={require("./../assets/popcorn.png")}
         style={{ width: 196, height: 196 }}
+        resizeMode="contain"
       />
     </View>
   );

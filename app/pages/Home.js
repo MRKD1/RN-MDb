@@ -70,7 +70,7 @@ export default class Home extends Component {
                   : "http://image.tmdb.org/t/p/w342/" + movie.poster_path,
               backdrop_path:
                 "http://image.tmdb.org/t/p/w500/" + movie.backdrop_path,
-              genres_ids: movie.genres_ids,
+              genre_ids: movie.genre_ids,
               overview: movie.overview,
               popularity: movie.popularity,
               release_date: movie.release_date,
@@ -88,7 +88,7 @@ export default class Home extends Component {
   componentDidMount() {
     this._isMount = true;
 
-    return fetch(this.baseUrl + "popular?api_key=" + this.apiKey)
+    return fetch(this.baseUrl + "now_playing?api_key=" + this.apiKey)
       .then((response) => response.json())
       .then((responseJson) => {
         const data = [];
@@ -122,11 +122,11 @@ export default class Home extends Component {
 
         if (this._isMount) {
           this.setState({
-            popularMovies: data,
+            recentMovies: data,
           });
         }
 
-        fetch(this.baseUrl + "now_playing?api_key=" + this.apiKey)
+        fetch(this.baseUrl + "popular?api_key=" + this.apiKey)
           .then((response) => response.json())
           .then((responseJson) => {
             const data = [];
@@ -161,7 +161,7 @@ export default class Home extends Component {
 
             if (this._isMount) {
               this.setState({
-                recentMovies: data,
+                popularMovies: data,
               });
             }
           })

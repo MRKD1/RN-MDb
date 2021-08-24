@@ -55,7 +55,7 @@ class MovieDetails extends Component {
     super(props);
     this.movieItem = props.route.params.item;
     this.readMovieData(this.movieItem);
-    var topSpace = Constants.statusBarHeight + 10;
+    var topSpace = Constants.statusBarHeight + 0;
     this.scrollHeight = Dimensions.get("screen").height - topSpace - 70;
     this.getTriggerValue();
   }
@@ -94,7 +94,6 @@ class MovieDetails extends Component {
           if (_array.length != 0) {
             this.setState({ isFavorite: true });
           } else {
-            // console.log("data yok");
           }
         },
         (txObj, error) => console.error(error)
@@ -125,7 +124,6 @@ class MovieDetails extends Component {
     movieTrigger.setHours(hours);
     movieTrigger.setSeconds(sec);
     movieTrigger.setMilliseconds(0);
-    //console.log(movieTrigger);
     var dayString =
       this.triggerValue == 15 || this.triggerValue == 30 ? "Today" : "Tomorrow";
     await Notifications.scheduleNotificationAsync({
