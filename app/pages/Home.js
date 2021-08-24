@@ -26,7 +26,6 @@ export default class Home extends Component {
   apiKey = "6269ca319ffc8277bdd7de26a3894f6e";
 
   state = {
-    //isLoading: false,
     recentMovies: [],
     popularMovies: [],
     queryResult: [],
@@ -178,9 +177,9 @@ export default class Home extends Component {
   handleSelect = () => {
     this.setState({ isAnimating: true });
 
-    this.state.fadeAnimation._value != this.deviceWidth - 40
+    this.state.fadeAnimation._value != this.deviceWidth - 24
       ? Animated.timing(this.state.fadeAnimation, {
-          toValue: this.deviceWidth - 40,
+          toValue: this.deviceWidth - 24,
           duration: 500,
           useNativeDriver: false,
         }).start(() => {
@@ -188,7 +187,7 @@ export default class Home extends Component {
           this.setState({ isAnimating: false });
         })
       : Animated.timing(this.state.fadeAnimation, {
-          toValue: 40,
+          toValue: 24,
           duration: 500,
           useNativeDriver: false,
         }).start(() => {
@@ -205,7 +204,7 @@ export default class Home extends Component {
       <Animated.View style={[styles.rectangle, customStyle]}>
         <TouchableWithoutFeedback
           style={{
-            width: 40,
+            width: 24,
             height: 40,
             justifyContent: "center",
             alignItems: "center",
@@ -215,7 +214,7 @@ export default class Home extends Component {
           <MaterialCommunityIcons
             name={this.state.iconName}
             color={isDarkMode ? light.bg : dark.bg}
-            size={24}
+            size={26}
           ></MaterialCommunityIcons>
         </TouchableWithoutFeedback>
       </Animated.View>

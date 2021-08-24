@@ -85,6 +85,23 @@ class MovieDetails extends Component {
     }
   };
 
+  readMovieData(data) {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM Favorites WHERE movie_id = ?",
+        [data.id],
+        (txObj, { rows: { _array } }) => {
+          if (_array.length != 0) {
+            this.setState({ isFavorite: true });
+          } else {
+            // console.log("data yok");
+          }
+        },
+        (txObj, error) => console.error(error)
+      );
+    });
+  }
+
   setFavoriteAlarm = async () => {
     var addForDay =
       this.triggerValue != "15" && this.triggerValue != "30"
@@ -99,17 +116,16 @@ class MovieDetails extends Component {
     var days =
       Number.parseInt(this.movieItem.release_date.split("-")[2]) + addForDay;
     var hours = new Date().getHours();
-    var min = new Date().getMinutes();
-    +addForMin;
+    var min = new Date().getMinutes() + addForMin;
     var sec = new Date().getSeconds();
     var releaseDate = year + "-" + month + "-" + days;
-    var movieDay = Date.parse("2021-04-11");
+    var movieDay = Date.parse(releaseDate);
     const movieTrigger = new Date(movieDay);
     movieTrigger.setMinutes(min);
     movieTrigger.setHours(hours);
     movieTrigger.setSeconds(sec);
     movieTrigger.setMilliseconds(0);
-    console.log(movieTrigger);
+    //console.log(movieTrigger);
     var dayString =
       this.triggerValue == 15 || this.triggerValue == 30 ? "Today" : "Tomorrow";
     await Notifications.scheduleNotificationAsync({
@@ -129,22 +145,6 @@ class MovieDetails extends Component {
       this.movieItem.id.toString()
     );
   };
-
-  readMovieData(data) {
-    db.transaction((tx) => {
-      tx.executeSql(
-        "SELECT * FROM Favorites WHERE movie_id = ?",
-        [data.id],
-        (txObj, { rows: { _array } }) => {
-          if (_array.length != 0) {
-            this.setState({ isFavorite: true });
-          } else {
-          }
-        },
-        (txObj, error) => console.error(error)
-      );
-    });
-  }
 
   downloadFile = async (data, process) => {
     const movieDir = FileSystem.documentDirectory + "/" + data.id + "/";
@@ -238,40 +238,40 @@ class MovieDetails extends Component {
   componentDidMount() {
     this.checkDate();
     return fetch(
-      this.baseUrl + this.movieItem.id + "/videos?api_key=" + this.apiKey
+      this.baseUrl + this.movieItem.id + "/credits?api_key=" + this.apiKey
     )
       .then((response) => response.json())
       .then((responseJson) => {
-        var items = [];
-        responseJson.results.map((movie) => {
-          items.push(
-            new Trailer({
-              key: movie.key,
-              name: movie.name,
-              type: movie.type,
+        var casts = [];
+        responseJson.cast.map((cast) => {
+          casts.push(
+            new Cast({
+              id: cast.id,
+              name: cast.name,
+              profile_path: cast.profile_path,
+              character: cast.character,
             })
           );
         });
-
-        this.setState({ trailer: items });
+        this.setState({ castResults: casts });
 
         fetch(
-          this.baseUrl + this.movieItem.id + "/credits?api_key=" + this.apiKey
+          this.baseUrl + this.movieItem.id + "/videos?api_key=" + this.apiKey
         )
           .then((response) => response.json())
           .then((responseJson) => {
-            var casts = [];
-            responseJson.cast.map((cast) => {
-              casts.push(
-                new Cast({
-                  id: cast.id,
-                  name: cast.name,
-                  profile_path: cast.profile_path,
-                  character: cast.character,
+            var items = [];
+            responseJson.results.map((movie) => {
+              items.push(
+                new Trailer({
+                  key: movie.key,
+                  name: movie.name,
+                  type: movie.type,
                 })
               );
             });
-            this.setState({ castResults: casts });
+
+            this.setState({ trailer: items });
           })
           .catch((error) => console.error(error));
       })
@@ -289,8 +289,8 @@ class MovieDetails extends Component {
               <SnackBar
                 visible={this.state.isVisibleMessage}
                 textMessage={this.state.messageText}
-                backgroundColor={isDarkMode ? dark.bg : light.bg}
-                messageColor={isDarkMode ? light.bg : dark.bg}
+                backgroundColor={isDarkMode ? light.bg : dark.bg}
+                messageColor={isDarkMode ? dark.bg : light.bg}
               />
               <Modal
                 style={{ position: "absolute", top: 0 }}
@@ -396,7 +396,7 @@ class MovieDetails extends Component {
                     color={isDarkMode ? light.bg : dark.bg}
                   />
                 </TouchableWithoutFeedback>
-
+                {/* {this.state.isShow ? ( */}
                 <TouchableWithoutFeedback
                   onPress={() => this.favoriteProcess(this.movieItem)}
                 >
@@ -414,6 +414,9 @@ class MovieDetails extends Component {
                     color={isDarkMode ? light.bg : dark.bg}
                   />
                 </TouchableWithoutFeedback>
+                {/* ) : (
+                  <View />
+                )} */}
 
                 {/* INFO */}
                 <View style={{ marginTop: 70, height: this.scrollHeight }}>
