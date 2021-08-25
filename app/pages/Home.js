@@ -234,6 +234,8 @@ export default class Home extends Component {
               ]}
             >
               <StatusBar style={isDarkMode ? "light" : "dark"}></StatusBar>
+              {/* FLATLIST SEARCH */}
+
               {/* SEARCH */}
               {/* <View style={styles.header}>
                 {!this.state.isAnimating && this.state.iconName == "magnify" ? (

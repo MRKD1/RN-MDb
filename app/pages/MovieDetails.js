@@ -282,7 +282,12 @@ class MovieDetails extends Component {
         {(context) => {
           const { isDarkMode, light, dark } = context;
           return (
-            <View style={styles.container}>
+            <View
+              style={[
+                styles.container,
+                { backgroundColor: isDarkMode ? dark.bg : light.bg },
+              ]}
+            >
               <StatusBar style={isDarkMode ? "light" : "dark"} />
               <SnackBar
                 visible={this.state.isVisibleMessage}
@@ -376,6 +381,7 @@ class MovieDetails extends Component {
                   height: "100%",
                 }}
               >
+                {/* BUTTONS */}
                 <TouchableWithoutFeedback
                   onPress={() => {
                     this.props.navigation.pop();
@@ -427,7 +433,7 @@ class MovieDetails extends Component {
                     //borderTopRightRadius: 40,
                   }}
                 > */}
-                <ScrollView>
+                <ScrollView style={{ zIndex: 2 }}>
                   <View style={styles.posterSpace} />
                   <View
                     style={{
@@ -436,6 +442,7 @@ class MovieDetails extends Component {
                       backgroundColor: "white",
                       borderTopLeftRadius: 40,
                       borderTopRightRadius: 40,
+                      backgroundColor: isDarkMode ? dark.bg : light.bg,
                     }}
                   >
                     <View
@@ -626,7 +633,7 @@ class MovieDetails extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    //backgroundColor: "white",
   },
   rating: {
     fontFamily: "Poppins-SemiBold",
@@ -647,7 +654,7 @@ const styles = StyleSheet.create({
     height: 281,
   },
   posterSpace: {
-    height: 240,
+    height: 235,
   },
   title: {
     fontSize: 17,
