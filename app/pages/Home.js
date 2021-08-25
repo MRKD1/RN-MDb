@@ -67,9 +67,9 @@ export default class Home extends Component {
               poster_path:
                 movie.poster_path == null
                   ? "https://lightning.od-cdn.com/25.2.6-build-2536-master/public/img/no-cover_en_US.jpg"
-                  : "http://image.tmdb.org/t/p/w342/" + movie.poster_path,
+                  : "http://image.tmdb.org/t/p/w780/" + movie.poster_path,
               backdrop_path:
-                "http://image.tmdb.org/t/p/w500/" + movie.backdrop_path,
+                "http://image.tmdb.org/t/p/w1280/" + movie.backdrop_path,
               genre_ids: movie.genre_ids,
               overview: movie.overview,
               popularity: movie.popularity,
@@ -106,9 +106,9 @@ export default class Home extends Component {
             new Movie({
               id: movie.id,
               title: movie.title,
-              poster_path: "http://image.tmdb.org/t/p/w342" + movie.poster_path,
+              poster_path: "http://image.tmdb.org/t/p/w780" + movie.poster_path,
               backdrop_path:
-                "http://image.tmdb.org/t/p/w500" + movie.backdrop_path,
+                "http://image.tmdb.org/t/p/w1280" + movie.backdrop_path,
               genre_ids: movie.genre_ids,
               overview: movie.overview,
               popularity: movie.popularity,
@@ -145,9 +145,9 @@ export default class Home extends Component {
                   id: movie.id,
                   title: movie.title,
                   poster_path:
-                    "http://image.tmdb.org/t/p/w342" + movie.poster_path,
+                    "http://image.tmdb.org/t/p/w780" + movie.poster_path,
                   backdrop_path:
-                    "http://image.tmdb.org/t/p/w500" + movie.backdrop_path,
+                    "http://image.tmdb.org/t/p/w1280" + movie.backdrop_path,
                   genre_ids: movie.genre_ids,
                   overview: movie.overview,
                   popularity: movie.popularity,
@@ -234,7 +234,8 @@ export default class Home extends Component {
               ]}
             >
               <StatusBar style={isDarkMode ? "light" : "dark"}></StatusBar>
-              <View style={styles.header}>
+              {/* SEARCH */}
+              {/* <View style={styles.header}>
                 {!this.state.isAnimating && this.state.iconName == "magnify" ? (
                   <View
                     style={{
@@ -332,7 +333,7 @@ export default class Home extends Component {
                 />
               ) : (
                 <View />
-              )}
+              )} */}
 
               {/* In Theatres */}
               <ScrollView scrollEnabled={this.state.query == "" ? true : false}>

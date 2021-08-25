@@ -1,15 +1,22 @@
 import React from "react";
-import { View, Text, Image, Dimensions, TouchableWithoutFeedback, } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Dimensions,
+  TouchableWithoutFeedback,
+} from "react-native";
 
 function TrailerItem(props) {
   const deviceWidth = Dimensions.get("window").width;
   const posterWidth = (deviceWidth - 50) / 2;
   const leftPosition = (posterWidth - 24) / 2;
   const marginValue = props.itemIndex % 2 == 0 ? 10 : 0;
-  
+
   const { isDarkMode, light, dark } = props.context;
 
-  const thumbnail = "https://img.youtube.com/vi/" + props.data.key + "/hqdefault.jpg";
+  const thumbnail =
+    "https://img.youtube.com/vi/" + props.data.key + "/hqdefault.jpg";
 
   return (
     <TouchableWithoutFeedback onPress={props.onPressFunction}>
@@ -35,7 +42,18 @@ function TrailerItem(props) {
           }}
           source={{ uri: thumbnail }}
         ></Image>
-        <Text style={{ flexWrap: "wrap", width: posterWidth, fontSize: 12, fontFamily:"Poppins-Regular", color: isDarkMode ? light.bg : dark.bg,}}>{props.data.name}</Text>
+        <Text
+          style={{
+            flexWrap: "wrap",
+            width: posterWidth,
+            fontSize: 12,
+            fontFamily: "Poppins-Regular",
+            color: isDarkMode ? light.bg : dark.bg,
+          }}
+          numberOfLines={2}
+        >
+          {props.data.name}
+        </Text>
       </View>
     </TouchableWithoutFeedback>
   );
