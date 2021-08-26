@@ -1,38 +1,22 @@
-import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableWithoutFeedback,
-  Dimensions,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React from 'react';
+import { View, Text, StyleSheet, Image, TouchableWithoutFeedback, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 function RecentMovieItem(props) {
   const navigation = useNavigation();
-  const deviceWidth = Dimensions.get("window").width;
+  const deviceWidth = Dimensions.get('window').width;
   const _width = deviceWidth - 50 - 171;
 
   return (
-    <TouchableWithoutFeedback
-      onPress={() => navigation.navigate("MovieDetails", { item: props.item })}
-    >
-      <View
-        style={[
-          styles.item,
-          { backgroundColor: props.context.isDarkMode ? "#3f3d43" : "#dcdbde" },
-        ]}
-      >
+    <TouchableWithoutFeedback onPress={() => navigation.navigate('MovieDetails', { item: props.item })}>
+      <View style={[styles.item, { backgroundColor: props.context.isDarkMode ? '#3f3d43' : '#dcdbde' }]}>
         <Image style={styles.poster} source={{ uri: props.item.poster_path }} />
         <View style={{ marginLeft: 10, width: _width, left: 20 }}>
           <Text
             style={[
               styles.title,
               {
-                color: props.context.isDarkMode
-                  ? props.context.light.bg
-                  : props.context.dark.bg,
+                color: props.context.isDarkMode ? props.context.light.bg : props.context.dark.bg,
               },
             ]}
           >
@@ -40,23 +24,21 @@ function RecentMovieItem(props) {
           </Text>
 
           <View style={styles.details}>
-            <View style={{ flexDirection: "column" }}>
+            <View style={{ flexDirection: 'column' }}>
               <Text
                 style={{
-                  fontFamily: "Poppins-Regular",
+                  fontFamily: 'Poppins-Regular',
                   fontSize: 13,
-                  color: "#FFBC03",
+                  color: '#FFBC03',
                 }}
               >
-                {props.item.genres.find((genre) => genre[0])}
+                {props.item.genres.find(genre => genre[0])}
               </Text>
               <Text
                 style={{
-                  fontFamily: "Poppins-Regular",
+                  fontFamily: 'Poppins-Regular',
                   fontSize: 13,
-                  color: props.context.isDarkMode
-                    ? props.context.light.bg
-                    : props.context.dark.bg,
+                  color: props.context.isDarkMode ? props.context.light.bg : props.context.dark.bg,
                   marginTop: 5,
                 }}
               >
@@ -76,7 +58,7 @@ function RecentMovieItem(props) {
 
 const styles = StyleSheet.create({
   item: {
-    flexDirection: "row",
+    flexDirection: 'row',
     borderRadius: 10,
     marginBottom: 10,
     height: 160,
@@ -94,33 +76,33 @@ const styles = StyleSheet.create({
 
   title: {
     width: 171,
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: 'Poppins-SemiBold',
     fontSize: 17,
     marginTop: 10,
   },
 
   details: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 
   ratingBadge: {
-    backgroundColor: "#FFBC03",
+    backgroundColor: '#FFBC03',
     width: 30,
     height: 30,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 10,
     marginTop: 10,
   },
 
   rating: {
-    fontFamily: "Poppins-SemiBold",
-    alignItems: "center",
+    fontFamily: 'Poppins-SemiBold',
+    alignItems: 'center',
     fontSize: 14,
     marginTop: 3,
-    color: "#303133",
+    color: '#303133',
   },
 });
 

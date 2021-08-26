@@ -1,36 +1,29 @@
-import React, { Component } from "react";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Text,
-  TouchableWithoutFeedback,
-  Animated,
-} from "react-native";
-import Constants from "expo-constants";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { StatusBar } from "expo-status-bar";
-import Autocomplete from "react-native-autocomplete-input";
-import { Dimensions } from "react-native";
+import React, { Component } from 'react';
+import { View, StyleSheet, ScrollView, Text, TouchableWithoutFeedback, Animated } from 'react-native';
+import Constants from 'expo-constants';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { StatusBar } from 'expo-status-bar';
+import Autocomplete from 'react-native-autocomplete-input';
+import { Dimensions } from 'react-native';
 
-import PupularMovieItem from "../components/PupularMovieItem";
-import RecentMovieItem from "../components/RecentMovieItem";
-import Movie from "../models/Movie";
-import { ThemeContext } from "../contexts/ThemeContext";
+import PupularMovieItem from '../components/PupularMovieItem';
+import RecentMovieItem from '../components/RecentMovieItem';
+import Movie from '../models/Movie';
+import { ThemeContext } from '../contexts/ThemeContext';
 
 export default class Home extends Component {
-  deviceWidth = Dimensions.get("window").width;
+  deviceWidth = Dimensions.get('window').width;
   _isMount = false;
   genres = [];
-  baseUrl = "https://api.themoviedb.org/3/movie/";
-  apiKey = "6269ca319ffc8277bdd7de26a3894f6e";
+  baseUrl = 'https://api.themoviedb.org/3/movie/';
+  apiKey = '6269ca319ffc8277bdd7de26a3894f6e';
 
   state = {
     recentMovies: [],
     popularMovies: [],
     queryResult: [],
-    query: "",
-    iconName: "magnify",
+    query: '',
+    iconName: 'magnify',
     isAnimating: false,
     fadeAnimation: new Animated.Value(24),
   };
@@ -40,21 +33,16 @@ export default class Home extends Component {
     this.genres = props.genres;
   }
 
-  searchData = (query) => {
-    return fetch(
-      "https://api.themoviedb.org/3/search/movie?api_key=" +
-        this.apiKey +
-        "&language=en-US&query=" +
-        query
-    )
-      .then((response) => response.json())
-      .then((responseJson) => {
+  searchData = query => {
+    return fetch('https://api.themoviedb.org/3/search/movie?api_key=' + this.apiKey + '&language=en-US&query=' + query)
+      .then(response => response.json())
+      .then(responseJson => {
         const moviedata = [];
         var allgenres = this.genres;
-        responseJson.results.forEach((movie) => {
+        responseJson.results.forEach(movie => {
           movie.genres = [];
-          movie.genre_ids.forEach((genreid) => {
-            var genreData = allgenres.filter((x) => x.id == genreid);
+          movie.genre_ids.forEach(genreid => {
+            var genreData = allgenres.filter(x => x.id == genreid);
             if (genreData.length != 0) {
               movie.genres.push(genreData[0].name);
             }
@@ -64,12 +52,8 @@ export default class Home extends Component {
             new Movie({
               id: movie.id,
               title: movie.title,
-              poster_path:
-                movie.poster_path == null
-                  ? "https://lightning.od-cdn.com/25.2.6-build-2536-master/public/img/no-cover_en_US.jpg"
-                  : "http://image.tmdb.org/t/p/w780/" + movie.poster_path,
-              backdrop_path:
-                "http://image.tmdb.org/t/p/w1280/" + movie.backdrop_path,
+              poster_path: movie.poster_path == null ? 'https://lightning.od-cdn.com/25.2.6-build-2536-master/public/img/no-cover_en_US.jpg' : 'http://image.tmdb.org/t/p/w780/' + movie.poster_path,
+              backdrop_path: 'http://image.tmdb.org/t/p/w1280/' + movie.backdrop_path,
               genre_ids: movie.genre_ids,
               overview: movie.overview,
               popularity: movie.popularity,
@@ -82,21 +66,21 @@ export default class Home extends Component {
           this.setState({ query: query, queryResult: moviedata });
         });
       })
-      .catch((error) => console.error(error));
+      .catch(error => console.error(error));
   };
 
   componentDidMount() {
     this._isMount = true;
 
-    return fetch(this.baseUrl + "now_playing?api_key=" + this.apiKey)
-      .then((response) => response.json())
-      .then((responseJson) => {
+    return fetch(this.baseUrl + 'now_playing?api_key=' + this.apiKey)
+      .then(response => response.json())
+      .then(responseJson => {
         const data = [];
         var allgenres = this.genres;
-        responseJson.results.forEach((movie) => {
+        responseJson.results.forEach(movie => {
           movie.genres = [];
-          movie.genre_ids.forEach((genreid) => {
-            var genreData = allgenres.filter((x) => x.id == genreid);
+          movie.genre_ids.forEach(genreid => {
+            var genreData = allgenres.filter(x => x.id == genreid);
             if (genreData.length != 0) {
               movie.genres.push(genreData[0].name);
             }
@@ -106,9 +90,8 @@ export default class Home extends Component {
             new Movie({
               id: movie.id,
               title: movie.title,
-              poster_path: "http://image.tmdb.org/t/p/w780" + movie.poster_path,
-              backdrop_path:
-                "http://image.tmdb.org/t/p/w1280" + movie.backdrop_path,
+              poster_path: movie.poster_path == null ? 'https://lightning.od-cdn.com/25.2.6-build-2536-master/public/img/no-cover_en_US.jpg' : 'http://image.tmdb.org/t/p/w780/' + movie.poster_path,
+              backdrop_path: 'http://image.tmdb.org/t/p/w1280' + movie.backdrop_path,
               genre_ids: movie.genre_ids,
               overview: movie.overview,
               popularity: movie.popularity,
@@ -126,15 +109,15 @@ export default class Home extends Component {
           });
         }
 
-        fetch(this.baseUrl + "popular?api_key=" + this.apiKey)
-          .then((response) => response.json())
-          .then((responseJson) => {
+        fetch(this.baseUrl + 'popular?api_key=' + this.apiKey)
+          .then(response => response.json())
+          .then(responseJson => {
             const data = [];
             var allgenres = this.genres;
-            responseJson.results.forEach((movie) => {
+            responseJson.results.forEach(movie => {
               movie.genres = [];
-              movie.genre_ids.forEach((genreid) => {
-                var genreData = allgenres.filter((x) => x.id == genreid);
+              movie.genre_ids.forEach(genreid => {
+                var genreData = allgenres.filter(x => x.id == genreid);
                 if (genreData.length != 0) {
                   movie.genres.push(genreData[0].name);
                 }
@@ -144,10 +127,8 @@ export default class Home extends Component {
                 new Movie({
                   id: movie.id,
                   title: movie.title,
-                  poster_path:
-                    "http://image.tmdb.org/t/p/w780" + movie.poster_path,
-                  backdrop_path:
-                    "http://image.tmdb.org/t/p/w1280" + movie.backdrop_path,
+                  poster_path: 'http://image.tmdb.org/t/p/w780' + movie.poster_path,
+                  backdrop_path: 'http://image.tmdb.org/t/p/w1280' + movie.backdrop_path,
                   genre_ids: movie.genre_ids,
                   overview: movie.overview,
                   popularity: movie.popularity,
@@ -165,9 +146,9 @@ export default class Home extends Component {
               });
             }
           })
-          .catch((error) => console.error(error));
+          .catch(error => console.error(error));
       })
-      .catch((error) => console.error(error));
+      .catch(error => console.error(error));
   }
 
   componentWillUnmount() {
@@ -183,7 +164,7 @@ export default class Home extends Component {
           duration: 500,
           useNativeDriver: false,
         }).start(() => {
-          this.setState({ iconName: "close" });
+          this.setState({ iconName: 'close' });
           this.setState({ isAnimating: false });
         })
       : Animated.timing(this.state.fadeAnimation, {
@@ -191,12 +172,12 @@ export default class Home extends Component {
           duration: 500,
           useNativeDriver: false,
         }).start(() => {
-          this.setState({ iconName: "magnify", query: "", queryResult: [] });
+          this.setState({ iconName: 'magnify', query: '', queryResult: [] });
           this.setState({ isAnimating: false });
         });
   };
 
-  renderRectangle = (context) => {
+  renderRectangle = context => {
     const { isDarkMode, light, dark } = context;
     const customStyle = { width: this.state.fadeAnimation };
 
@@ -206,16 +187,12 @@ export default class Home extends Component {
           style={{
             width: 24,
             height: 40,
-            justifyContent: "center",
-            alignItems: "center",
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
           onPress={() => this.handleSelect()}
         >
-          <MaterialCommunityIcons
-            name={this.state.iconName}
-            color={isDarkMode ? light.bg : dark.bg}
-            size={26}
-          ></MaterialCommunityIcons>
+          <MaterialCommunityIcons name={this.state.iconName} color={isDarkMode ? light.bg : dark.bg} size={26}></MaterialCommunityIcons>
         </TouchableWithoutFeedback>
       </Animated.View>
     );
@@ -224,16 +201,11 @@ export default class Home extends Component {
   render() {
     return (
       <ThemeContext.Consumer>
-        {(context) => {
+        {context => {
           const { isDarkMode, light, dark } = context;
           return (
-            <View
-              style={[
-                styles.container,
-                { backgroundColor: isDarkMode ? dark.bg : light.bg },
-              ]}
-            >
-              <StatusBar style={isDarkMode ? "light" : "dark"}></StatusBar>
+            <View style={[styles.container, { backgroundColor: isDarkMode ? dark.bg : light.bg }]}>
+              <StatusBar style={isDarkMode ? 'light' : 'dark'}></StatusBar>
               {/* FLATLIST SEARCH */}
 
               {/* SEARCH */}
@@ -338,19 +310,19 @@ export default class Home extends Component {
               )} */}
 
               {/* In Theatres */}
-              <ScrollView scrollEnabled={this.state.query == "" ? true : false}>
+              <ScrollView scrollEnabled={this.state.query == '' ? true : false}>
                 <View
                   style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
                     paddingHorizontal: 20,
-                    alignItems: "center",
+                    alignItems: 'center',
                     marginVertical: 10,
                   }}
                 >
                   <Text
                     style={{
-                      fontFamily: "Poppins-SemiBold",
+                      fontFamily: 'Poppins-SemiBold',
                       fontSize: 18,
                       color: isDarkMode ? light.bg : dark.bg,
                     }}
@@ -359,7 +331,7 @@ export default class Home extends Component {
                   </Text>
                   <TouchableWithoutFeedback
                     onPress={() =>
-                      this.props.navigation.navigate("ViewAll", {
+                      this.props.navigation.navigate('ViewAll', {
                         genres: this.genres,
                         isPopular: true,
                       })
@@ -367,47 +339,29 @@ export default class Home extends Component {
                   >
                     <View
                       style={{
-                        flexDirection: "row",
-                        flexWrap: "wrap",
-                        alignItems: "center",
+                        flexDirection: 'row',
+                        flexWrap: 'wrap',
+                        alignItems: 'center',
                       }}
                     >
                       <Text
                         style={{
-                          fontFamily: "Poppins-Bold",
+                          fontFamily: 'Poppins-Bold',
                           fontSize: 18,
                           color: isDarkMode ? light.bg : dark.bg,
                         }}
                       >
                         View All
                       </Text>
-                      <MaterialCommunityIcons
-                        name="chevron-right"
-                        size={30}
-                        color={isDarkMode ? light.bg : dark.bg}
-                      />
+                      <MaterialCommunityIcons name="chevron-right" size={30} color={isDarkMode ? light.bg : dark.bg} />
                     </View>
                   </TouchableWithoutFeedback>
                 </View>
 
-                <ScrollView
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                  scrollEnabled={this.state.query == "" ? true : false}
-                >
-                  <View
-                    style={{ flexDirection: "row", flex: 1, paddingLeft: 10 }}
-                  >
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} scrollEnabled={this.state.query == '' ? true : false}>
+                  <View style={{ flexDirection: 'row', flex: 1, paddingLeft: 10 }}>
                     {this.state.recentMovies.map((item, index) => {
-                      return index < 5 ? (
-                        <PupularMovieItem
-                          key={item.id}
-                          item={item}
-                          context={context}
-                        />
-                      ) : (
-                        <View key={item.id} />
-                      );
+                      return index < 5 ? <PupularMovieItem key={item.id} item={item} context={context} /> : <View key={item.id} />;
                     })}
                   </View>
                 </ScrollView>
@@ -415,16 +369,16 @@ export default class Home extends Component {
                 {/* POPULAR */}
                 <View
                   style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
                     paddingHorizontal: 20,
-                    alignItems: "center",
+                    alignItems: 'center',
                     marginTop: 30,
                   }}
                 >
                   <Text
                     style={{
-                      fontFamily: "Poppins-SemiBold",
+                      fontFamily: 'Poppins-SemiBold',
                       fontSize: 18,
                       color: isDarkMode ? light.bg : dark.bg,
                     }}
@@ -434,7 +388,7 @@ export default class Home extends Component {
 
                   <TouchableWithoutFeedback
                     onPress={() =>
-                      this.props.navigation.navigate("ViewAll", {
+                      this.props.navigation.navigate('ViewAll', {
                         genres: this.genres,
                         isPopular: false,
                       })
@@ -442,40 +396,28 @@ export default class Home extends Component {
                   >
                     <View
                       style={{
-                        flexDirection: "row",
-                        flexWrap: "wrap",
-                        alignItems: "center",
+                        flexDirection: 'row',
+                        flexWrap: 'wrap',
+                        alignItems: 'center',
                       }}
                     >
                       <Text
                         style={{
-                          fontFamily: "Poppins-Bold",
+                          fontFamily: 'Poppins-Bold',
                           fontSize: 18,
                           color: isDarkMode ? light.bg : dark.bg,
                         }}
                       >
                         View All
                       </Text>
-                      <MaterialCommunityIcons
-                        name="chevron-right"
-                        size={30}
-                        color={isDarkMode ? light.bg : dark.bg}
-                      />
+                      <MaterialCommunityIcons name="chevron-right" size={30} color={isDarkMode ? light.bg : dark.bg} />
                     </View>
                   </TouchableWithoutFeedback>
                 </View>
 
                 <View style={{ paddingHorizontal: 20 }}>
-                  {this.state.popularMovies.map((item, index) => {
-                    return index < 5 ? (
-                      <RecentMovieItem
-                        key={item.id}
-                        item={item}
-                        context={context}
-                      />
-                    ) : (
-                      <View key={item.id} />
-                    );
+                  {this.state.recentMovies.map((item, index) => {
+                    return index < 5 ? <RecentMovieItem key={item.id} item={item} context={context} /> : <View key={item.id} />;
                   })}
                 </View>
               </ScrollView>
@@ -494,16 +436,16 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
     paddingHorizontal: 10,
     zIndex: 3,
   },
 
   title: {
     fontSize: 24,
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: 'Poppins-SemiBold',
   },
   rectangle: {
     height: 40,

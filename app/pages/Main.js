@@ -1,23 +1,23 @@
-import React, { Component } from "react";
-import { StyleSheet, SafeAreaView, ActivityIndicator } from "react-native";
-import Constants from "expo-constants";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import * as SQLite from "expo-sqlite";
+import React, { Component } from 'react';
+import { StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
+import Constants from 'expo-constants';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import * as SQLite from 'expo-sqlite';
 
-import Home from "./../pages/Home";
-import Favorite from "./../pages/Favorite";
-import Settings from "./../pages/Settings";
-import { ThemeContext } from "../contexts/ThemeContext";
+import Home from './../pages/Home';
+import Favorite from './../pages/Favorite';
+import Settings from './../pages/Settings';
+import { ThemeContext } from '../contexts/ThemeContext';
 
 const Tab = createBottomTabNavigator();
-const db = SQLite.openDatabase("movie.db");
+const db = SQLite.openDatabase('movie.db');
 
 class Main extends Component {
   constructor(props) {
     super(props);
 
-    props.navigation.addListener("beforeRemove", (e) => {
+    props.navigation.addListener('beforeRemove', e => {
       e.preventDefault();
       return;
     });
@@ -27,55 +27,47 @@ class Main extends Component {
       genres: [],
     };
 
-    db.transaction((tx) => {
-      tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS Favorites (id INTEGER PRIMARY KEY AUTOINCREMENT, movie_id INT, title TEXT, genres TEXT, overview TEXT, popularity TEXT, release_date TEXT, vote_average TEXT, vote_count TEXT, poster TEXT, backdrop TEXT);"
-      );
+    db.transaction(tx => {
+      tx.executeSql('CREATE TABLE IF NOT EXISTS Favorites (id INTEGER PRIMARY KEY AUTOINCREMENT, movie_id INT, title TEXT, genres TEXT, overview TEXT, popularity TEXT, release_date TEXT, vote_average TEXT, vote_count TEXT, poster TEXT, backdrop TEXT);');
     });
 
     this.fetchData();
   }
 
   fetchData() {
-    return fetch(
-      "https://api.themoviedb.org/3/genre/movie/list?api_key=6269ca319ffc8277bdd7de26a3894f6e"
-    )
-      .then((response) => response.json())
-      .then((responseJson) => {
+    return fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=6269ca319ffc8277bdd7de26a3894f6e')
+      .then(response => response.json())
+      .then(responseJson => {
         this.setState({
           isLoading: false,
           genres: responseJson.genres,
         });
       })
-      .catch((error) => console.error(error));
+      .catch(error => console.error(error));
   }
 
   render() {
-    const HomeComponent = (props) => (
-      <Home {...props} genres={this.state.genres} />
-    );
+    const HomeComponent = props => <Home {...props} genres={this.state.genres} />;
     if (this.state.isLoading) {
-      <SafeAreaView
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-      >
+      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator />
       </SafeAreaView>;
     }
     return (
       <ThemeContext.Consumer>
-        {(context) => {
+        {context => {
           const { isDarkMode, light, dark } = context;
           return (
             <Tab.Navigator
               tabBarOptions={{
-                activeTintColor: isDarkMode ? "#FFF" : "#333",
-                inactiveTintColor: "#999999",
+                activeTintColor: isDarkMode ? '#FFF' : '#333',
+                inactiveTintColor: '#999999',
                 keyboardHidesTabBar: true,
-                labelStyle: { fontFamily: "Poppins-Regular" },
+                labelStyle: { fontFamily: 'Poppins-Regular' },
                 style: {
                   backgroundColor: isDarkMode ? dark.bg : light.bg,
                   borderTopWidth: 1,
-                  shadowColor: "#000",
+                  shadowColor: '#000',
                   shadowOffset: { width: 0, height: 4 },
                   shadowOpacity: 0.25,
                   shadowRadius: 8,
@@ -85,42 +77,24 @@ class Main extends Component {
             >
               <Tab.Screen
                 options={{
-                  tabBarLabel: "Home",
-                  tabBarIcon: ({ color, size }) => (
-                    <MaterialCommunityIcons
-                      name="home"
-                      color={color}
-                      size={26}
-                    />
-                  ),
+                  tabBarLabel: 'Home',
+                  tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="home" color={color} size={26} />,
                 }}
                 name="Home"
                 component={HomeComponent}
               />
               <Tab.Screen
                 options={{
-                  tabBarLabel: "Favorite",
-                  tabBarIcon: ({ color, size }) => (
-                    <MaterialCommunityIcons
-                      name="heart"
-                      color={color}
-                      size={26}
-                    />
-                  ),
+                  tabBarLabel: 'Favorite',
+                  tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="heart" color={color} size={26} />,
                 }}
                 name="Favorite"
                 component={Favorite}
               />
               <Tab.Screen
                 options={{
-                  tabBarLabel: "Settings",
-                  tabBarIcon: ({ color, size }) => (
-                    <MaterialCommunityIcons
-                      name="cog"
-                      color={color}
-                      size={26}
-                    />
-                  ),
+                  tabBarLabel: 'Settings',
+                  tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="cog" color={color} size={26} />,
                 }}
                 name="Settings"
                 component={Settings}

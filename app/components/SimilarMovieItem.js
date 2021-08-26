@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-function PopularMovieItem(props) {
+function SimilarMovieItem(props) {
   const navigation = useNavigation();
 
   return (
@@ -11,7 +11,7 @@ function PopularMovieItem(props) {
         <Image style={styles.poster} source={{ uri: props.item.poster_path }}></Image>
         <Text
           style={{
-            width: 205.2,
+            width: 171,
             fontFamily: 'Poppins-SemiBold',
             fontSize: 14,
             color: props.context.isDarkMode ? props.context.light.bg : props.context.dark.bg,
@@ -29,15 +29,16 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginRight: 10,
     justifyContent: 'flex-start',
-    marginLeft: 10,
+
+    //marginLeft: 10,
   },
 
   poster: {
-    width: 205.2,
-    height: 306.6,
+    width: 171,
+    height: 255.5,
     borderRadius: 10,
     marginBottom: 10,
   },
 });
 
-export default PopularMovieItem;
+export default SimilarMovieItem;

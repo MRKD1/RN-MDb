@@ -1,84 +1,57 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, Image } from "react-native";
-import PagerView from "react-native-pager-view";
-import Constants from "expo-constants";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useState } from 'react';
+import { View, StyleSheet, Text, Image } from 'react-native';
+import PagerView from 'react-native-pager-view';
+import Constants from 'expo-constants';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import DotIndicator from "../components/DotIndicator";
+import DotIndicator from '../components/DotIndicator';
 
 function AppIntro(props) {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   return (
     <View style={styles.container}>
-      <PagerView
-        style={styles.pagerView}
-        onPageSelected={(e) => setSelectedIndex(e.nativeEvent.position)}
-        initialPage={0}
-      >
+      <PagerView style={styles.pagerView} onPageSelected={e => setSelectedIndex(e.nativeEvent.position)} initialPage={0}>
         <View key="1" style={styles.page}>
           <Text style={styles.title}>Offline Database</Text>
           <View style={styles.circle}>
-            <Image
-              style={{ width: 48, height: 48, tintColor: "white" }}
-              source={require("./../assets/data.png")}
-            ></Image>
+            <Image style={{ width: 48, height: 48, tintColor: 'white' }} source={require('./../assets/data.png')}></Image>
           </View>
-          <Text style={styles.subtitle}>
-            Browse without internet by crating your own favorites list.
-          </Text>
+          <Text style={styles.subtitle}>Browse without internet by crating your own favorites list.</Text>
         </View>
 
         <View key="2" style={styles.page}>
           <Text style={styles.title}>Millions of Movies</Text>
           <View style={styles.circle}>
-            <Image
-              style={{ width: 48, height: 48, tintColor: "white" }}
-              source={require("./../assets/movies.png")}
-            ></Image>
+            <Image style={{ width: 48, height: 48, tintColor: 'white' }} source={require('./../assets/movies.png')}></Image>
           </View>
-          <Text style={styles.subtitle}>
-            Access millions of movies instantly.
-          </Text>
+          <Text style={styles.subtitle}>Access millions of movies instantly.</Text>
         </View>
 
         <View key="3" style={styles.page}>
           <Text style={styles.title}>Dark Mode</Text>
           <View style={styles.circle}>
-            <Image
-              style={{ width: 48, height: 48, tintColor: "white" }}
-              source={require("./../assets/moonmode.png")}
-            ></Image>
+            <Image style={{ width: 48, height: 48, tintColor: 'white' }} source={require('./../assets/moonmode.png')}></Image>
           </View>
-          <Text style={styles.subtitle}>
-            Browse comfortably at night without straining your eyes.
-          </Text>
+          <Text style={styles.subtitle}>Browse comfortably at night without straining your eyes.</Text>
         </View>
 
         <View key="4" style={styles.page}>
           <Text style={styles.title}>Advance Notifications</Text>
           <View style={styles.circle}>
-            <Image
-              style={{ width: 48, height: 48, tintColor: "white" }}
-              source={require("./../assets/notification.png")}
-            ></Image>
+            <Image style={{ width: 48, height: 48, tintColor: 'white' }} source={require('./../assets/notification.png')}></Image>
           </View>
-          <Text style={styles.subtitle}>
-            Inform you of the movies on your favorite list before the release
-            date.
-          </Text>
+          <Text style={styles.subtitle}>Inform you of the movies on your favorite list before the release date.</Text>
 
           <TouchableWithoutFeedback
             onPress={async () => {
-              await AsyncStorage.setItem("isFirstRun", "false");
-              props.navigation.navigate("Main");
+              await AsyncStorage.setItem('isFirstRun', 'false');
+              props.navigation.navigate('Main');
             }}
           >
             <View style={styles.button}>
-              <Text style={{ color: "white", fontFamily: "Poppins-Light" }}>
-                LET'S START
-              </Text>
+              <Text style={{ color: 'white', fontFamily: 'Poppins-Light' }}>LET'S START</Text>
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -86,17 +59,13 @@ function AppIntro(props) {
 
       <View
         style={{
-          position: "absolute",
+          position: 'absolute',
           bottom: 50,
-          width: "100%",
-          alignItems: "center",
+          width: '100%',
+          alignItems: 'center',
         }}
       >
-        <DotIndicator
-          activeIndex={selectedIndex}
-          dotSize={8}
-          itemLength={4}
-        ></DotIndicator>
+        <DotIndicator activeIndex={selectedIndex} dotSize={8} itemLength={4}></DotIndicator>
       </View>
     </View>
   );
@@ -106,20 +75,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Constants.statusBarHeight + 10,
-    backgroundColor: "white",
+    backgroundColor: 'white',
   },
   pagerView: {
     flex: 1,
   },
   page: {
-    flexWrap: "wrap",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    alignContent: "center",
+    flexWrap: 'wrap',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
   },
   title: {
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: 'Poppins-SemiBold',
     fontSize: 20,
     marginBottom: 20,
   },
@@ -127,24 +96,24 @@ const styles = StyleSheet.create({
     width: 144,
     height: 144,
     borderRadius: 72,
-    backgroundColor: "#B1B1B1",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#B1B1B1',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   subtitle: {
-    fontFamily: "Poppins-Light",
+    fontFamily: 'Poppins-Light',
     fontSize: 16,
     paddingHorizontal: 20,
-    textAlign: "center",
+    textAlign: 'center',
     marginTop: 40,
   },
   button: {
-    backgroundColor: "black",
+    backgroundColor: 'black',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 30,
   },
 });

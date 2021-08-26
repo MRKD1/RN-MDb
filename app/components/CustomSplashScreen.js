@@ -1,21 +1,17 @@
-import React from "react";
-import { View, Image } from "react-native";
+import React from 'react';
+import { View, Image } from 'react-native';
 function CustomSplashScreen(props) {
   return (
     <View
       style={{
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: props.isDarkMode ? "#222124" : "#fff",
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: props.isDarkMode ? '#222124' : '#fff',
       }}
       onLayout={props.onLoadLayout}
     >
-      <Image
-        source={require("./../assets/popcorn.png")}
-        style={{ width: 196, height: 196 }}
-        resizeMode="contain"
-      />
+      <Image source={require('./../assets/popcorn.png')} style={{ width: 196, height: 196 }} resizeMode="contain" />
     </View>
   );
 }

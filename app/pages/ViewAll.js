@@ -1,24 +1,18 @@
-import React, { Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  ActivityIndicator,
-} from "react-native";
-import { StatusBar } from "expo-status-bar";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Constants from "expo-constants";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Constants from 'expo-constants';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 //import PopularMovieItem from "../components/PupularMovieItem";
-import RecentMovieItem from "../components/RecentMovieItem";
-import { ThemeContext } from "../contexts/ThemeContext";
-import Movie from "../models/Movie";
+import RecentMovieItem from '../components/RecentMovieItem';
+import { ThemeContext } from '../contexts/ThemeContext';
+import Movie from '../models/Movie';
 
 class ViewAll extends Component {
-  baseUrl = "http://api.themoviedb.org/3/movie/";
-  apiKey = "6269ca319ffc8277bdd7de26a3894f6e";
+  baseUrl = 'http://api.themoviedb.org/3/movie/';
+  apiKey = '6269ca319ffc8277bdd7de26a3894f6e';
 
   state = {
     data: null,
@@ -31,42 +25,31 @@ class ViewAll extends Component {
     this.genres = props.route.params.genres;
   }
 
-  fetchData = (page) => {
+  fetchData = page => {
     this.setState({ isLoading: true });
     if (this.state.total_pages >= page) {
-      return fetch(
-        this.baseUrl +
-          (this.props.route.params.isPopular ? "now_playing" : "popular") +
-          "?api_key=" +
-          this.apiKey +
-          "&page=" +
-          page
-      )
-        .then((response) => response.json())
-        .then((responseJson) => {
+      return fetch(this.baseUrl + (this.props.route.params.isPopular ? 'now_playing' : 'popular') + '?api_key=' + this.apiKey + '&page=' + page)
+        .then(response => response.json())
+        .then(responseJson => {
           const moviedata = page == 1 ? [] : this.state.data;
           var allgenres = this.genres;
-          responseJson.results.forEach((movie) => {
+          responseJson.results.forEach(movie => {
             movie.genres = [];
-            movie.genre_ids.forEach((genreid) => {
-              var genreData = allgenres.filter((x) => x.id == genreid);
+            movie.genre_ids.forEach(genreid => {
+              var genreData = allgenres.filter(x => x.id == genreid);
               if (genreData.length != 0) {
                 movie.genres.push(genreData[0].name);
               }
             });
 
-            var item = moviedata.filter((x) => x.id == movie.id);
+            var item = moviedata.filter(x => x.id == movie.id);
             if (item.length == 0) {
               moviedata.push(
                 new Movie({
                   id: movie.id,
                   title: movie.title,
-                  poster_path:
-                    movie.poster_path == null
-                      ? "https://lightning.od-cdn.com/25.2.6-build-2536-master/public/img/no-cover_en_US.jpg"
-                      : "http://image.tmdb.org/t/p/w780/" + movie.poster_path,
-                  backdrop_path:
-                    "http://image.tmdb.org/t/p/w1280/" + movie.backdrop_path,
+                  poster_path: movie.poster_path == null ? 'https://lightning.od-cdn.com/25.2.6-build-2536-master/public/img/no-cover_en_US.jpg' : 'http://image.tmdb.org/t/p/w780/' + movie.poster_path,
+                  backdrop_path: 'http://image.tmdb.org/t/p/w1280/' + movie.backdrop_path,
                   genres_ids: movie.genres_ids,
                   overview: movie.overview,
                   popularity: movie.popularity,
@@ -89,7 +72,7 @@ class ViewAll extends Component {
             isLoading: false,
           });
         })
-        .catch((error) => console.error(error));
+        .catch(error => console.error(error));
     }
   };
 
@@ -104,7 +87,7 @@ class ViewAll extends Component {
   render() {
     if (this.state.isLoading) {
       <View style={{ paddingVertical: 20 }}>
-        <ActivityIndicator animating={true} size={"large"} />
+        <ActivityIndicator animating={true} size={'large'} />
       </View>;
     }
 
@@ -113,34 +96,23 @@ class ViewAll extends Component {
     } else {
       return (
         <ThemeContext.Consumer>
-          {(context) => {
+          {context => {
             const { isDarkMode, light, dark } = context;
             return (
-              <View
-                style={[
-                  styles.container,
-                  { backgroundColor: isDarkMode ? dark.bg : light.bg },
-                ]}
-              >
-                <StatusBar style={isDarkMode ? "light" : "dark"} />
+              <View style={[styles.container, { backgroundColor: isDarkMode ? dark.bg : light.bg }]}>
+                <StatusBar style={isDarkMode ? 'light' : 'dark'} />
 
                 <View
                   style={{
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    alignItems: "center",
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    alignItems: 'center',
                     paddingLeft: 10,
-                    justifyContent: "space-between",
+                    justifyContent: 'space-between',
                   }}
                 >
-                  <TouchableWithoutFeedback
-                    onPress={() => this.props.navigation.pop()}
-                  >
-                    <MaterialCommunityIcons
-                      name="chevron-left"
-                      color={isDarkMode ? light.bg : dark.bg}
-                      size={30}
-                    />
+                  <TouchableWithoutFeedback onPress={() => this.props.navigation.pop()}>
+                    <MaterialCommunityIcons name="chevron-left" color={isDarkMode ? light.bg : dark.bg} size={30} />
                   </TouchableWithoutFeedback>
 
                   <Text
@@ -152,18 +124,14 @@ class ViewAll extends Component {
                       },
                     ]}
                   >
-                    {this.props.route.params.isPopular
-                      ? "Recent Movies"
-                      : "Popular Movies"}
+                    {this.props.route.params.isPopular ? 'Recent Movies' : 'Popular Movies'}
                   </Text>
                 </View>
 
                 <FlatList
                   style={{ paddingHorizontal: 20 }}
                   data={this.state.data}
-                  keyExtractor={(item) =>
-                    item.id.toString() + this.state.page.toString()
-                  }
+                  keyExtractor={item => item.id.toString() + this.state.page.toString()}
                   onEndReached={this.updatePage}
                   renderItem={({ item }) => {
                     return <RecentMovieItem item={item} context={context} />;
@@ -186,18 +154,18 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight + 10,
   },
   header: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
   },
   title: {
     fontSize: 22,
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: 'Poppins-SemiBold',
     marginBottom: 20,
   },
   nodata: {
-    fontFamily: "Poppins-Regular",
+    fontFamily: 'Poppins-Regular',
     fontSize: 16,
   },
 });

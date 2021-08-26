@@ -1,19 +1,16 @@
-import React from "react";
-import { View, Text, Image } from "react-native";
+import React from 'react';
+import { View, Text, Image } from 'react-native';
 
 function CastItem(props) {
   const { isDarkMode, light, dark } = props.context;
 
   return (
     <View style={{ flex: 1, marginRight: 20 }}>
-      <Image
-        source={{ uri: props.cast.profile_path }}
-        style={{ height: 120, width: 80, borderRadius: 10 }}
-      />
+      <Image source={{ uri: props.cast.profile_path }} style={{ height: 120, width: 80, borderRadius: 10 }} />
       <Text
         style={{
           color: isDarkMode ? light.bg : dark.bg,
-          fontFamily: "Poppins-SemiBold",
+          fontFamily: 'Poppins-SemiBold',
           width: 80,
           fontSize: 12,
         }}
@@ -24,7 +21,7 @@ function CastItem(props) {
       <Text
         style={{
           color: isDarkMode ? light.bg : dark.bg,
-          fontFamily: "Poppins-Light",
+          fontFamily: 'Poppins-Light',
           fontSize: 10,
           width: 80,
         }}

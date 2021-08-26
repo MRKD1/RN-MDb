@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import Constants from "expo-constants";
-import { ScrollView } from "react-native-gesture-handler";
-import AppLoading from "expo-app-loading";
-import * as FileSystem from "expo-file-system";
-import * as SQLite from "expo-sqlite";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { StatusBar } from "expo-status-bar";
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import Constants from 'expo-constants';
+import { ScrollView } from 'react-native-gesture-handler';
+import AppLoading from 'expo-app-loading';
+import * as FileSystem from 'expo-file-system';
+import * as SQLite from 'expo-sqlite';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { StatusBar } from 'expo-status-bar';
 
-import RecentMovieItem from "../components/RecentMovieItem";
-import { ThemeContext } from "../contexts/ThemeContext";
+import RecentMovieItem from '../components/RecentMovieItem';
+import { ThemeContext } from '../contexts/ThemeContext';
 
-const db = SQLite.openDatabase("movie.db");
+const db = SQLite.openDatabase('movie.db');
 
 export default function Favorite({ navigation, route }) {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const fetchSqliteData = () => {
-    db.transaction((tx) => {
+    db.transaction(tx => {
       tx.executeSql(
-        "SELECT * FROM Favorites",
+        'SELECT * FROM Favorites',
         null,
         (txObj, { rows: { _array } }) => {
           setData(_array);
@@ -31,7 +31,7 @@ export default function Favorite({ navigation, route }) {
   };
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
+    const unsubscribe = navigation.addListener('focus', () => {
       fetchSqliteData();
     });
     return unsubscribe;
@@ -39,7 +39,7 @@ export default function Favorite({ navigation, route }) {
 
   if (data == null && isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <AppLoading />
       </View>
     );
@@ -47,33 +47,22 @@ export default function Favorite({ navigation, route }) {
     if (data.length == 0) {
       return (
         <ThemeContext.Consumer>
-          {(context) => {
+          {context => {
             const { isDarkMode, light, dark } = context;
             return (
               <View
                 style={{
                   flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
+                  justifyContent: 'center',
+                  alignItems: 'center',
                   backgroundColor: isDarkMode ? dark.bg : light.bg,
                 }}
               >
-                <StatusBar style={isDarkMode ? "dark" : "light"}></StatusBar>
-                <View style={{ alignItems: "center" }}>
-                  <MaterialCommunityIcons
-                    name="cloud-off-outline"
-                    size={30}
-                    color={isDarkMode ? light.bg : dark.bg}
-                  />
+                <StatusBar style={isDarkMode ? 'dark' : 'light'}></StatusBar>
+                <View style={{ alignItems: 'center' }}>
+                  <MaterialCommunityIcons name="cloud-off-outline" size={30} color={isDarkMode ? light.bg : dark.bg} />
                   <View style={{ marginBottom: 10 }} />
-                  <Text
-                    style={[
-                      styles.nodata,
-                      { color: isDarkMode ? light.bg : dark.bg },
-                    ]}
-                  >
-                    No Data Found
-                  </Text>
+                  <Text style={[styles.nodata, { color: isDarkMode ? light.bg : dark.bg }]}>No Data Found</Text>
                 </View>
               </View>
             );
@@ -83,44 +72,22 @@ export default function Favorite({ navigation, route }) {
     } else {
       return (
         <ThemeContext.Consumer>
-          {(context) => {
+          {context => {
             const { isDarkMode, light, dark } = context;
             return (
-              <View
-                style={[
-                  styles.container,
-                  { backgroundColor: isDarkMode ? dark.bg : light.bg },
-                ]}
-              >
-                <StatusBar style={isDarkMode ? "dark" : "light"}></StatusBar>
-                <Text
-                  style={[
-                    styles.title,
-                    { color: isDarkMode ? light.bg : dark.bg },
-                  ]}
-                >
-                  Favorite
-                </Text>
+              <View style={[styles.container, { backgroundColor: isDarkMode ? dark.bg : light.bg }]}>
+                <StatusBar style={isDarkMode ? 'dark' : 'light'}></StatusBar>
+                <Text style={[styles.title, { color: isDarkMode ? light.bg : dark.bg }]}>Favorite</Text>
                 <ScrollView style={{ paddingHorizontal: 20 }}>
-                  {data.map((item) => {
-                    const movieDir =
-                      FileSystem.documentDirectory + "/" + item.movie_id + "/";
-                    const posterPath = movieDir + "poster_path.jpg";
-                    const backdropPath = movieDir + "backdrop_path.jpg";
-                    item.genres =
-                      typeof item.genres == "string"
-                        ? item.genres.split(",")
-                        : item.genres;
+                  {data.map(item => {
+                    const movieDir = FileSystem.documentDirectory + '/' + item.movie_id + '/';
+                    const posterPath = movieDir + 'poster_path.jpg';
+                    const backdropPath = movieDir + 'backdrop_path.jpg';
+                    item.genres = typeof item.genres == 'string' ? item.genres.split(',') : item.genres;
                     item.poster_path = posterPath;
                     item.backdrop_path = backdropPath;
                     item.id = item.movie_id;
-                    return (
-                      <RecentMovieItem
-                        key={item.id}
-                        item={item}
-                        context={context}
-                      />
-                    );
+                    return <RecentMovieItem key={item.id} item={item} context={context} />;
                   })}
                 </ScrollView>
               </View>
@@ -139,19 +106,19 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight + 10,
   },
   header: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
   },
   title: {
     paddingLeft: 20,
     fontSize: 24,
-    fontFamily: "Poppins-SemiBold",
+    fontFamily: 'Poppins-SemiBold',
     marginBottom: 20,
   },
   nodata: {
-    fontFamily: "Poppins-Regular",
+    fontFamily: 'Poppins-Regular',
     fontSize: 16,
   },
 });
