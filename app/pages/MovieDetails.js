@@ -60,6 +60,7 @@ class MovieDetails extends Component {
     isFavorite: false,
     castResults: [],
     similars: [],
+    details: [],
     isShow: true,
     isVisibleMessage: false,
     messageText: '',
@@ -234,8 +235,8 @@ class MovieDetails extends Component {
                 })
               );
             });
-
             this.setState({ trailer: items });
+
             //SIMILAR MOVIES
             fetch(this.baseUrl + this.movieItem.id + '/similar?api_key=' + this.apiKey)
               .then(response => response.json())
@@ -528,7 +529,7 @@ class MovieDetails extends Component {
                         </View>
                       </TouchableWithoutFeedback> */}
                       </View>
-                      <ScrollView style={{ flexDirection: 'row' }} horizontal={true} showsHorizontalScrollIndicator={false}>
+                      <ScrollView style={{ flexDirection: 'row' }} horizontal={true}>
                         {this.state.castResults.map((cast, index) => {
                           return <CastItem cast={cast} context={context} key={cast.id} />;
                         })}
@@ -546,7 +547,29 @@ class MovieDetails extends Component {
                       >
                         Trailers
                       </Text>
-                      <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
+
+                      <ScrollView style={{ flexDirection: 'row' }} horizontal={true}>
+                        {this.state.trailer.map((item, index) => {
+                          return (
+                            <TrailerItem
+                              poster={this.movieItem.backdrop_path}
+                              key={item.key}
+                              context={context}
+                              onPressFunction={() => {
+                                this.setState({
+                                  modalVisible: true,
+                                  activeMovieTrailerKey: item.key,
+                                });
+                              }}
+                              data={item}
+                              modalVisible={this.state.modalVisible}
+                              itemIndex={index}
+                            />
+                          );
+                        })}
+                      </ScrollView>
+
+                      {/* <View style={{ flexWrap: 'wrap', flexDirection: 'row' }}>
                         {this.state.trailer.map((item, index) => {
                           return index < 4 ? (
                             <TrailerItem
@@ -564,10 +587,10 @@ class MovieDetails extends Component {
                               itemIndex={index}
                             />
                           ) : (
-                            <View key={item.id} />
+                            <View />
                           );
                         })}
-                      </View>
+                      </View> */}
                       {/* SIMILAR MOVIES */}
 
                       <Text

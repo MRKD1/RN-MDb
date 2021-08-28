@@ -3,8 +3,8 @@ import { View, Text, Image, Dimensions, TouchableWithoutFeedback } from 'react-n
 
 function TrailerItem(props) {
   const deviceWidth = Dimensions.get('window').width;
-  const posterWidth = (deviceWidth - 50) / 2;
-  const leftPosition = (posterWidth - 24) / 2;
+  const posterWidth = (deviceWidth - 50) / 1.2;
+  const leftPosition = (deviceWidth - 50 - 24) / 2;
   const marginValue = props.itemIndex % 2 == 0 ? 10 : 0;
 
   const { isDarkMode, light, dark } = props.context;
@@ -13,15 +13,15 @@ function TrailerItem(props) {
 
   return (
     <TouchableWithoutFeedback onPress={props.onPressFunction}>
-      <View style={{ marginRight: marginValue, marginTop: 10 }}>
+      <View style={{ marginRight: 5, marginTop: 10, paddingLeft: 33 }}>
         <Image
           style={{
             position: 'absolute',
-            top: 38,
+            top: 60,
             left: leftPosition,
             zIndex: 1,
-            width: 24,
-            height: 24,
+            width: 40,
+            height: 40,
           }}
           source={require('../assets/play.png')}
         ></Image>
@@ -29,7 +29,7 @@ function TrailerItem(props) {
           resizeMode={'cover'}
           style={{
             width: posterWidth,
-            height: 100,
+            height: 160,
             borderRadius: 8,
             marginBottom: 5,
           }}
@@ -40,7 +40,7 @@ function TrailerItem(props) {
             flexWrap: 'wrap',
             width: posterWidth,
             fontSize: 12,
-            fontFamily: 'Poppins-Regular',
+            fontFamily: 'Poppins-SemiBold',
             color: isDarkMode ? light.bg : dark.bg,
           }}
           numberOfLines={2}
