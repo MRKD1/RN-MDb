@@ -398,18 +398,19 @@ class MovieDetails extends Component {
                     //borderTopRightRadius: 40,
                   }}
                 > */}
-                <View style={styles.posterSpace} />
-                <View
-                  style={{
-                    flex: 1,
-                    padding: 20,
-                    backgroundColor: 'white',
-                    borderTopLeftRadius: 40,
-                    borderTopRightRadius: 40,
-                    backgroundColor: isDarkMode ? dark.bg : light.bg,
-                  }}
-                >
-                  <ScrollView style={{ zIndex: 2 }} endFillColor={isDarkMode ? dark.bg : light.bg} showsVerticalScrollIndicator={false}>
+                <ScrollView style={{ zIndex: 2 }} endFillColor={isDarkMode ? dark.bg : light.bg} showsVerticalScrollIndicator={false}>
+                  <View style={styles.posterSpace} />
+                  <View
+                    style={{
+                      flex: 1,
+                      paddingHorizontal: 20,
+                      paddingTop: 20,
+                      backgroundColor: 'white',
+                      borderTopLeftRadius: 40,
+                      borderTopRightRadius: 40,
+                      backgroundColor: isDarkMode ? dark.bg : light.bg,
+                    }}
+                  >
                     <View>
                       <View
                         style={{
@@ -619,9 +620,10 @@ class MovieDetails extends Component {
                         </View>
                       </ScrollView>
                     </View>
-                  </ScrollView>
-                </View>
+                  </View>
+                </ScrollView>
               </View>
+
               {/* </View> */}
             </View>
           );

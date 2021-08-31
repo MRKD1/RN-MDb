@@ -14,7 +14,6 @@ import MovieDetails from './app/pages/MovieDetails';
 import ThemeContextProvider from './app/contexts/ThemeContext';
 import ViewAll from './app/pages/ViewAll';
 import AppIntro from './app/pages/AppIntro';
-import CastViewAll from './app/pages/CastViewAll';
 import CustomSplashScreen from './app/components/CustomSplashScreen';
 
 const Stack = createStackNavigator();
@@ -35,7 +34,7 @@ export default function App() {
   const notificationListener = useRef();
   const responseListener = useRef();
   const [fontsLoaded, setFontLoaded] = useState(false);
-  const [initialPage, setInitialPage] = useState('MainRoot');
+  const [initialPage, setInitialPage] = useState('Main');
 
   const getPage = async () => {
     try {
