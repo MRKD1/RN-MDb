@@ -398,7 +398,7 @@ class MovieDetails extends Component {
                     //borderTopRightRadius: 40,
                   }}
                 > */}
-                <ScrollView style={{ zIndex: 2 }} endFillColor={isDarkMode ? dark.bg : light.bg} showsVerticalScrollIndicator={false}>
+                <ScrollView style={{ zIndex: 2, marginTop: 60 }} endFillColor={isDarkMode ? dark.bg : light.bg} showsVerticalScrollIndicator={false}>
                   <View style={styles.posterSpace} />
                   <View
                     style={{
@@ -623,9 +623,8 @@ class MovieDetails extends Component {
                   </View>
                 </ScrollView>
               </View>
-
-              {/* </View> */}
             </View>
+            // </View>
           );
         }}
       </ThemeContext.Consumer>
